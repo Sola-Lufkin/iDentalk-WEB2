@@ -1,0 +1,459 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title%}
+	{%trans "Personal information" %}
+{% endblock%}
+
+{% block style %}
+<link rel="stylesheet" href="/site_static/css/pat.css" type="text/css">
+<link rel="stylesheet" href="/site_static/css/jcrop/jquery.Jcrop.css">
+<link rel="stylesheet" href="/site_static/css/datepicker.css">
+{% endblock %}
+
+{% block script %}
+<script src="http://maps.google.com/maps/api/js?sensor=false"></script>
+<script data-main="/site_static/js/js-build/scripts/patient/pat_edit" src="/site_static/js/js-build/libs/require.js"></script>
+{% endblock %}
+
+{% block header %}
+	{% include 'header.html' %}
+{% endblock %}
+
+{% block content %}
+<div id="wrapper" class="container container-fluid">
+<div class="row-fluid radius-wrapper bg-content">
+	
+	<div id="left-sidebar" class="span3">
+		<h1 class="sidebar-title"></i><span>Profile</span></h1>
+		<ul class="sidebar-list">
+			<li class="tab active" data-target="person_info"><i class="icon-user"></i>Personal information</li>
+			<li class="tab" data-target="myloc"><i class="icon-map-marker"></i>My location</li>
+			<li class="tab" data-target="pathology"><i class="icon-stethoscope"></i>Questionnaire</li>
+		</ul>	
+	</div>
+	<div id="main-content" class="span9 pull-right">
+	<div id="person_info" class="row-fluid edit-form content-inner">
+		<hr>
+		<h2>Personal information:</h2>
+		<form id="base_info_form" class="form-inline" method="POST" action="{% url pat_pro_base %}">
+			<table class="">
+				<tr>
+					<td class="span2">
+						<label class="control-label" for="">First Name:</label>
+					</td>
+					<td class="span3">
+						<input type="text" value="{{Info.first_name}}" name="first_name" class="required">
+					</td>
+					<td class="span2">
+						<label class="control-label" for="">Last Name:</label>
+					</td>
+					<td class="span3">
+						<input type="text" value="{{Info.last_name}}" name="last_name" class="required">
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label class="control-label" for="">Title:</label>
+					</td>
+					<td>
+						{% if Info.title == "1" %}
+                            <input type="radio" name="title" value="1" class="required" checked="checked">Mr.
+                        {% else %}
+                            <input type="radio" name="title" value="1" class="required">Mr.
+                        {% endif %}
+
+                        {% if Info.title == "2" %}
+                            <input type="radio" name="title" value="2" class="required" checked="checked">Miss.
+                        {% else %}
+                            <input type="radio" name="title" value="2" class="required">Mrs.
+                        {% endif %}
+
+                        {% if Info.title == "3" %}
+                            <input type="radio" name="title" value="3" class="required" checked="checked">Ms.
+                        {% else %}
+                            <input type="radio" name="title" value="3" class="required">Ms.
+                        {% endif %}
+                         {% if Info.title == "4" %}
+                            <input type="radio" name="title" value="4" class="required" checked="checked">Mrs.
+                        {% else %}
+                            <input type="radio" name="title" value="4" class="required">Mrs.
+                        {% endif %}
+
+					</td>
+					<td></td>
+					<td></td>
+				</tr>
+				<!-- <tr>
+					<td>
+						<label class="control-label" for="">Gender:</label>
+					</td>
+					<td>
+						{%if Info.gender == "M"%} 
+	                    <input type="radio" name="gender" value="M" class="required" checked="checked">Male
+	                    <input type="radio" name="gender" value="F" class="required">Famel
+	                	{% else %}
+	                	<input type="radio" name="gender" value="F" class="required" checked="checked">Famel
+	                	<input type="radio" name="gender" value="M" class="required">Male
+	                	{% endif %}
+					</td>
+					<td></td>
+					<td></td>
+				</tr> -->
+				<tr>
+					<td>
+						<label class="control-label" for="">Birthdate:</label>
+					</td>
+					<td>
+						<input class="" type="text" name="birthday" value="{{Info.birthday}}">
+					</td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>
+						<label class="control-label" for="">Summary:</label>
+					</td>
+					<td colspan="3">
+						{% if Info.summary == 'None' %}
+						<textarea name="summary" placeholder="" cols="80" rows="5" class="span12"></textarea>
+						{% else %}
+						<textarea name="summary" cols="80" rows="5" class="span12">{{Info.summary}}</textarea>	
+						{% endif %}
+					</td>
+				</tr>
+			</table>
+			<button id="sub_baseinfo" class="btn btn-orange pull-right mt10">Save</button>
+        </form>
+	</div>
+	<div id="myloc" class="row-fluid edit-form content-inner">
+		<hr>
+		<h2>My location:</h2>
+		<div class="row-fluid">
+			<form id="location_form" action="{% url pat_loc_edit %}">
+				<input name="location" id="location" type="text" class="input-xlarge pull-left" value="{{ Info.location }}">
+				<input id="latlng" type="hidden" name="latlng" value="{{ Info.latlng }}">
+			</form>
+			<button id="sub_locaiton" class="btn btn-orange ml10">Save</button>
+		</div>
+		<div id="gmap"></div>
+	</div>
+	<div id="pathology" class="edit-form content-inner hide">
+		<form id="pathology_form" class="form-inline" action="{% url pat_pro_pathology %}" method = "post">
+		    <div class="dental_problem">
+		    	<hr>
+				<h2>Questionnaire:</h2>
+		        <h4>Have you ever had any of the following dental problems?</h4>
+		        {% csrf_token %}
+
+		        <label class="checkbox">
+		        {% if "1" in A %}
+		        <input type="checkbox" name="dental_problem" value ="1" checked="checked">Gum bleeding
+		        {% else %}
+		        <input type="checkbox" name="dental_problem" value ="1" >Gum bleeding
+		        {% endif %}
+		        </label>
+
+		        <label class="checkbox">
+		        {% if "2" in A %}
+		        <input type="checkbox" name="dental_problem" value ="2" checked="checked">Gum swelling
+		        {% else %}
+		        <input type="checkbox" name="dental_problem" value ="2">Gum swelling
+		        {% endif %}
+		        </label>
+
+		        <label class="checkbox">
+		        {% if "3" in A %}
+		        <input type="checkbox" name="dental_problem" value ="3" checked="checked">Jaw pain
+		        {% else %}
+		        <input type="checkbox" name="dental_problem" value ="3">Jaw pain
+		        {% endif %}
+		        </label>
+
+		        <label class="checkbox">
+		        {% if "4" in A %}
+		        <input type="checkbox" name="dental_problem" value ="4" checked="checked">Loose tooth
+		        {% else %}
+		        <input type="checkbox" name="dental_problem" value ="4">Loose tooth
+		        {% endif %}
+		        </label>
+
+		        <label class="checkbox">
+		        {% if "5" in A %}
+		        <input type="checkbox" name="dental_problem" value ="5" checked="checked">Teeth crowding
+		        {% else %}
+		        <input type="checkbox" name="dental_problem" value ="5">Teeth crowding
+		        {% endif %}
+		        </label>
+
+		        <label class="checkbox">
+		        {% if "6" in A %}
+		        <input type="checkbox" name="dental_problem" value ="6" checked="checked">Tooth decay
+		        {% else %}
+		        <input type="checkbox" name="dental_problem" value ="6">Tooth decay
+		        {% endif %}
+		        </label>
+		        <label class="checkbox">
+		        {% if "7" in A %}
+		        <input type="checkbox" name="dental_problem" value ="7" checked="checked">Tooth discoloration
+		        {% else %}
+		        <input type="checkbox" name="dental_problem" value ="7">Tooth discoloration
+		        {% endif %}
+		        </label>
+
+		        <label class="checkbox">
+		        {% if "8" in A %}
+		        <input type="checkbox" name="dental_problem" value ="8" checked="checked">Tooth fracture
+		        {% else %}
+		        <input type="checkbox" name="dental_problem" value ="8">Tooth fracture
+		        {% endif %}
+		        </label>
+
+		        <label class="checkbox">
+		        {% if "9" in A %}
+		        <input type="checkbox" name="dental_problem" value ="9" checked="checked">Tooth loss
+		        {% else %}
+		        <input type="checkbox" name="dental_problem" value ="9">Tooth loss
+		        {% endif %}
+		        </label>
+
+		        <label class="checkbox">
+		        {% if "10" in A %}
+		        <input type="checkbox" name="dental_problem" value ="10" checked="checked">Tooth sensitivity
+		        {% else %}
+		        <input type="checkbox" name="dental_problem" value ="10">Tooth sensitivity
+		        {% endif %}
+		        </label>
+
+		        <label class="checkbox">
+		        {% if "11" in A %}
+		        <input type="checkbox" name="dental_problem" value ="11" checked="checked">Toothache
+		        {% else %}
+		        <input type="checkbox" name="dental_problem" value ="11">Toothache
+		        {% endif %}
+		        </label>
+
+		        <label class="checkbox">
+		        <input class="noneabove" type= "checkbox" name= "dental_problem" value="0">None of the above
+		        </label>
+
+		    </div>
+
+		    <div class="dental_treatment">
+		        <h4>Have you ever had any of the following dental treatments?</h4>
+		        <label class="checkbox">
+		        {% if "1" in B %}
+		        <input type="checkbox" name="dental_treatment" value ="1" checked="checked">Crown / Bridge
+		        {% else %}
+		        <input type="checkbox" name="dental_treatment" value ="1" >Crown / Bridge
+		        {% endif %}
+		        </label>
+
+		        <label class="checkbox">
+		        {% if "2" in B %}
+		        <input type="checkbox" name="dental_treatment" value ="2" checked="checked">Implant
+		        {% else %}
+		        <input type="checkbox" name="dental_treatment" value ="2">Implant
+		        {% endif %}
+		        </label>
+
+		        <label class="checkbox">
+		        {% if "3" in B %}
+		        <input type="checkbox" name="dental_treatment" value ="3" checked="checked">Orthodontic therapy
+		        {% else %}
+		        <input type="checkbox" name="dental_treatment" value ="3">Orthodontic therapy
+		        {% endif %}
+		        </label>
+
+		        <label class="checkbox">
+		        {% if "4" in B %}
+		        <input type="checkbox" name="dental_treatment" value ="4" checked="checked">Partial / Full dentures
+		        {% else %}
+		        <input type="checkbox" name="dental_treatment" value ="4">Partial / Full dentures
+		        {% endif %}
+		        </label>
+
+		        <label class="checkbox">
+		        {% if "5" in B %}
+		        <input type="checkbox" name="dental_treatment" value ="5" checked="checked">Preventive measurements
+		        {% else %}
+		        <input type="checkbox" name="dental_treatment" value ="5">Preventive measurements
+		        {% endif %}
+		        </label>
+
+		        <label class="checkbox">
+		        {% if "6" in B %}
+		        <input type="checkbox" name="dental_treatment" value ="6" checked="checked">Root canal therapy
+		        {% else %}
+		        <input type="checkbox" name="dental_treatment" value ="6">Root canal therapy
+		        {% endif %}
+		        </label>
+
+		        <label class="checkbox">
+		        {% if "7" in B %}
+		        <input type="checkbox" name="dental_treatment" value ="7" checked="checked">Scaling
+		        {% else %}
+		        <input type="checkbox" name="dental_treatment" value ="7">Scaling
+		        {% endif %}
+		        </label>
+
+		        <label class="checkbox">
+		        {% if "8" in B %}
+		        <input type="checkbox" name="dental_treatment" value ="8" checked="checked">Tooth bleaching
+		        {% else %}
+		        <input type="checkbox" name="dental_treatment" value ="8">Tooth bleaching
+		        {% endif %}
+		        </label>
+
+		        <label class="checkbox">
+		        {% if "9" in B %}
+		        <input type="checkbox" name="dental_treatment" value ="9" checked="checked">Tooth extraction
+		        {% else %}
+		        <input type="checkbox" name="dental_treatment" value ="9">Tooth extraction
+		        {% endif %}
+		        </label>
+
+		        <label class="checkbox">
+		        {% if "10" in B %}
+		        <input type="checkbox" name="dental_treatment" value ="10" checked="checked">Tooth restoration
+		        {% else %}
+		        <input type="checkbox" name="dental_treatment" value ="10">Tooth restoration
+		        {% endif %}
+		        </label>
+
+		        <label class="checkbox">
+		        {% if "11" in B %}
+		        <input type="checkbox" name="dental_treatment" value ="11" checked="checked">Veneer
+		        {% else %}
+		        <input type="checkbox" name="dental_treatment" value ="11">Veneer
+		        {% endif %}
+		        </label>
+
+		        <label class="checkbox">
+		        <input class="noneabove" type="checkbox" value="0" name="dental_treatment">None of above
+		        </label>
+		    </div>
+
+		    <div class="oral_habits">
+		        <h4>How would you describe your oral health habits?</h4>
+
+		        <label class="checkbox">
+		        {% if "1" in C %}
+		        <input type="checkbox" name="oral_habits" value ="1" checked="checked">I brush my teeth at least twice a day.
+		        {% else %}
+		        <input type="checkbox" name="oral_habits" value ="1" >I brush my teeth at least twice a day.
+		        {% endif %}
+		        </label>
+
+		        <label class="checkbox">
+		        {% if "2" in C %}
+		        <input type="checkbox" name="oral_habits" value ="2" checked="checked">I use fluoridated toothpaste.
+		        {% else %}
+		        <input type="checkbox" name="oral_habits" value ="2">I use fluoridated toothpaste.
+		        {% endif %}
+		        </label>
+
+		        <label class="checkbox">
+		        {% if "3" in C %}
+		        <input type="checkbox" name="oral_habits" value ="3" checked="checked">I use dental floss at least once a day.
+		        {% else %}
+		        <input type="checkbox" name="oral_habits" value ="3">I use dental floss at least once a day.
+		        {% endif %}
+		        </label>
+
+		        <label class="checkbox">
+		        {% if "4" in C %}
+		        <input type="checkbox" name="oral_habits" value ="4" checked="checked">I try to limit my intake of sugary snacks and drinks.<br>
+		        {% else %}
+		        <input type="checkbox" name="oral_habits" value ="4">I try to limit my intake of sugary snacks and drinks.
+		        {% endif %}
+		        </label>
+
+		        <label class="checkbox">
+		        {% if "5" in C %}
+		        <input type="checkbox" name="oral_habits" value ="5" checked="checked">I visit my dentist regularly for oral examination and scaling.
+		        {% else %}
+		        <input type="checkbox" name="oral_habits" value ="5">I visit my dentist regularly for oral examination and scaling.
+		        {% endif %}
+		        </label>
+
+		        <label class="checkbox">
+		        {% if "6" in C %}
+		        <input type="checkbox" name="oral_habits" value ="6" checked="checked">I don't smoke.
+		        {% else %}
+		        <input type="checkbox" name="oral_habits" value ="6">I don't smoke.
+		        {% endif %}
+		        </label>
+
+		        <label class="checkbox">
+		        <input class="noneabove" type="checkbox" name= "oral_habits" value="0">None of the above
+		        </label>
+		    </div>
+		    <div class="oral_status">
+		        <h4>How would you describe your oral health status?</h4>
+
+		        <label class="radio">
+		        {% if "1" in D %}
+		        <input type="radio" name="oral_status" value ="1" checked="checked">Excellent
+		        {% else %}
+		        <input type="radio" name="oral_status" value ="1" >Excellent
+		        {% endif %}
+		        </label>
+
+		        <label class="radio">
+		        {% if "2" in D %}
+		        <input type="radio" name="oral_status" value ="2" checked="checked">Very good
+		        {% else %}
+		        <input type="radio" name="oral_status" value ="2">Very good
+		        {% endif %}
+		        </label>
+
+		        <label class="radio">
+		        {% if "3" in D %}
+		        <input type="radio" name="oral_status" value ="3" checked="checked">Good
+		        {% else %}
+		        <input type="radio" name="oral_status" value ="3">Good
+		        {% endif %}
+		        </label>
+
+		        <label class="radio">
+		        {% if "4" in D %}
+		        <input type="radio" name="oral_status" value ="4" checked="checked">Fair
+		        {% else %}
+		        <input type="radio" name="oral_status" value ="4">Fair
+		        {% endif %}
+		        </label>
+
+		        <label class="radio">
+		        {% if "5" in D %}
+		        <input type="radio" name="oral_status" value ="5" checked="checked">Poor
+		        {% else %}
+		        <input type="radio" name="oral_status" value ="5">Poor
+		        {% endif %}
+		        </label>
+
+		        <label class="radio">
+		        {% if "6" in D %}
+		        <input type="radio" name="oral_status" value ="6" checked="checked">Very poor
+		        {% else %}
+		        <input type="radio" name="oral_status" value ="6">Very poor
+		        {% endif %}
+		        </label>
+
+		        <label class="radio">
+		        {% if "7" in D %}
+		        <input type="radio" name="oral_status" value ="7" checked="checked">I don't know
+		        {% else %}
+		        <input type="radio" name="oral_status" value ="7">I don't know
+		        {% endif %}
+		        </label>
+		    </div>
+		    <div class="clearfix">
+		    	<button id="sub_pathology" type="button" class="btn btn-orange mt30 pull-right">Save</button>
+		    </div>
+		</form>
+	</div>
+	</div>
+</div>
+</div>
+{% endblock%}

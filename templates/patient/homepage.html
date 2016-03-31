@@ -1,0 +1,206 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% load truncate_filters %}
+
+{% block title %}
+    {% trans 'Home page' %}    
+{% endblock %}
+
+{% block mobile_assets %}
+<script type="text/javascript" src="/site_static/mobile-app/js/m-pat.js"></script>
+{% endblock %}
+
+{% block style %}
+<link rel="stylesheet" href="/site_static/css/pat.css" type="text/css">
+<link rel="stylesheet" href="/site_static/css/jcrop/jquery.Jcrop.css">
+{% endblock %}
+{% block script %}
+<script data-main="/site_static/js/js-build/scripts/patient/pat_homepage" src="/site_static/js/js-build/libs/require.js"></script>
+{% endblock %}
+
+{% block header %}
+    {% include 'header.html' %}
+{% endblock %}
+
+
+{% if flavour == "mobile" %}
+    {% block mobile %}
+        {% include 'm_post_tmpl.js' %}
+        {% include 'mobile/m-header.html' %}
+        {% include 'mobile/m-phome.html' %}
+    {% endblock %}
+{% else %}
+
+{% block content %}
+{% include 'pat_home.js' %}
+<div id="wrapper" class="container container-fluid" style="padding-top:240px">
+	<div class="radius-wrapper row-fluid pat-home bg-content">
+		<div id="main-content" class="span9">
+			<div id="timeline">
+				<hr>
+				<div id="stream_line"></div>
+				<div id="msg_flow"></div>
+				<div class="row-fluid timeline-footer">
+                    <div class="timeline-footer-wrap"></div>
+                </div>
+			</div>
+		</div>
+		<div class="span3 pat-right">
+			<div id="baseinfo">
+				<div class="row-fluid">
+					<!-- <img class="thumbnail" src="{{ Info.imagebig }}"> -->
+					<div class="avatar-wrapper span12">
+						{% if Info.imagebig %}
+						<a href="{{Info.imagebig}}">
+							<img src="{{Info.imagebig}}" class="thumbnail avatar" width="250" height="250" /> 
+						</a> 	
+						{% else %}
+						<a href="site_static/img/8.png">
+							<img src="/site_static/img/8.png" class="thumbnail avatar" /></a>
+						</a>
+						{% endif %}
+						<h3 class="img-tip hide img-intro">Change</h3>
+						<div class="hide" id="upload_avatar_wrapper">
+			                <div class="row-fluid well ">
+			                    <form action="{% url choose_avatar %}" enctype="multipart/form-data" class="avatar_form row-fluid" target="file_upload_iframe" method="POST">
+			                        <div class="span5 avatar-panel thumbnails">
+			                            <img class="ferret" src="/site_static/img/8.png"> 
+			                        </div>
+			                        <div class="span4 mt80 offset2">
+			                            <a href="javascript:;" class="choose_avatar btn btn-gray upload-btn btn-block btn-large" style="margin:-4px 0 0 15px">Upload a photo</a>
+			                        </div>
+			                        <input class="hide real_file_up" type="file"name="imagephoto">
+			                        <div class="iframe-panel"></div> 
+			                    </form>
+			                    <form class="resize_form clearfix">
+			                        <input type="hidden" name="x1" value="260" />
+			                        <input type="hidden" name="y1" value="260" />
+			                        <input type="hidden" name="x2" value="260" />
+			                        <input type="hidden" name="y2" value="260" /> 
+			                        <button class="upload_avatar hide btn btn-gray" style="margin:-235px 0 0 418px">Save as avatar</button>
+			                    </form>
+			                </div>
+			            </div>
+					</div>
+					<div class="pat-info">
+						<h3>{{title_var}} {{ myname }}</h3>
+						{{ Info.summary|truncatewords:10 }}
+					</div>
+				</div>
+				<ul class="row-fluid follow-type">
+					<li class="span4 den-connect active">
+						<dd>Connected<br>Dentist</dd>
+						<dt>{{ denlist.connected_count }}</dt>
+					</li>
+					<li class="line"></li>
+					<li class="span4 den-connecting">		
+						<dd>Connecting<br>Dentist</dd>
+						<dt>{{ denlist.connecting_count }}</dt>
+					</li>
+					<li class="line"></li>
+					<li class="span4 den-follow">						
+						<dd>Following<br>Dentist</dd>
+						<dt>{{ denlist.follow_count }}</dt>
+					</li>
+				</ul>
+			</div>
+			<div id="connected_list" class="den-list row-fluid">
+				{% for i in denlist.Connected_List %}
+				<div class="row-fluid">
+					<a href="/d/{{ i.dentist_id }}" class="thumbnail"><img src="{{ i.avatar }}" alt="" class=""></a>
+					<div class="den_intro">
+						{{ i.dentist_name|truncate_chars:15 }}
+					</div>
+					<a href="javascript:;" class="list-more dropable hide" style="right:13px;"></a>
+					<ul class="span3 hide mem-control dropdown-menu" style="right:12px;">
+						<li class="fisrt">
+							<a class="send-message contact-btn" rel="{{ i.dentist_id }}" data-name="{{ i.dentist_name }}" href="javascript:;">
+							<i class="icon-comment"></i>Message
+							</a>
+							</li>
+						<li class="divider"></li>
+						<li class="last">
+							<a class="follow-action rel-control" href="/ajax/relationship/unconnect/{{ i.dentist_id }}">
+								<i class="icon-minus-sign"></i>Unconnect
+							</a>
+							</li>
+					</ul>
+				</div>
+				{% endfor %}		
+			</div>
+			<div id="connecting_list" class="hide den-list row-fluid">
+				{% for i in denlist.Connecting_List %}
+				<div class="row-fluid">
+					<a href="/d/{{ i.dentist_id }}" class="thumbnail"><img src="{{ i.avatar }}" alt="" class=""></a>
+					<div class="den_intro">
+						{{ i.dentist_name|truncate_chars:15 }}
+					</div>
+					<a href="javascript:;" class="list-more dropable hide"></a>
+					<ul class="span3 hide mem-control dropdown-menu">
+						<li class="fisrt last">
+							<a class="follow-action rel-control" href="/ajax/relationship/cancelrequest/{{ i.dentist_id }}">
+							<i class="icon-remove-sign"></i>Cancel connect
+							</a>
+						</li>
+					</ul>
+				</div>
+				{% endfor %}
+			</div>
+			<div id="follow_list" class="row-fluid den-list hide">
+				{% for i in denlist.Follow_List %}
+				<div class="row-fluid">
+					<a href="/d/{{ i.dentist_id }}" class="thumbnail"><img src="{{ i.avatar }}" alt="" class=""></a>
+					<div class="den_intro">
+						{{ i.dentist_name|truncate_chars:15 }}
+					</div>
+					<a href="javascript:;" class="list-more dropable hide"></a>
+					<ul class="span3 hide mem-control dropdown-menu">
+						<li class="fisrt">
+							<a class="follow-action rel-control" href="/ajax/relationship/connect/{{ i.dentist_id }}">
+							<i class="icon-plus-sign"></i>Connect
+							</a>
+						</li>
+						<li class="divider"></li>
+						<li class="last">
+							<a href="/ajax/relationship/unfollow/{{ i.dentist_id }}" class="follow-action">
+							<i class="icon-remove-sign"></i>unfollow
+							</a>
+						</li>
+					</ul>
+				</div>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+
+	<div class="contact-box hide">
+		<form class="form">
+			<h3 class="lead ml10">Message to <span class="den-name"></span></h3>
+			<div class="control-group">
+				<div class="controls clearfix ml10">
+					<input type="hidden" name="contact-id" value="">
+					<textarea name="content" id="" cols="30" rows="10" class="span8"></textarea>
+				</div>
+			</div>
+			<div class="form-actions">
+				<button type="button" class="btn btn-orange sub-message pull-right">Send</button>
+			</div>
+		</form>
+	</div>
+	{% if not email_active %}
+		<script>
+			(function(){
+				var content = document.getElementsByTagName('body')[0],
+					header = document.getElementById('header'),
+					notice = document.createElement('div');
+				notice.className = 'alert text-center';
+				notice.innerHTML = 'Email address not verified <a href="{% url send_email %}">Click</a> to resend verify email';
+				notice.setAttribute( 'style', 'z-index: 4' );
+				content.insertBefore(notice, header);
+			})();
+		</script>
+	{% endif %}
+</div>
+{% endblock %}
+{% endif %}

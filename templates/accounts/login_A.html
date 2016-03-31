@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}Account Login{% endblock %}
+
+{% block header %}
+	<div class="window-tip label label-info">Loading...</div>
+		<div id="header" class="navbar">
+		    <div class="navbar-inner nav-header-top">
+		        <div class="container">
+		            <a href="/" class="brand"><img class="logo" src="/site_static/img/logo.png"></a>
+		        </div>
+		    </div>
+		    <div class="navbar-inner nav-header-bottom">
+		        <div class="container">
+		        </div>
+		    </div>
+		</div>
+{% endblock %}
+
+{% block content %}	
+<div id="wrapper" class="container container-fluid" style="width:500px;">
+	<div class="well">
+		<h4 class="alert" style="font-size:10px;">Please make sure the email or password you entered is correct.</h4>	
+		<form action="" method="post">{% csrf_token %}
+		<table class="table">
+		    {{form.as_table}}        
+		</table>
+		<div class="clearfix">
+			<button class="btn btn-gray pull-right" type="submit">{%trans "Sign in"%}</button>
+			
+		</div>
+		</form>	
+	</div>
+</div>
+{% endblock %}

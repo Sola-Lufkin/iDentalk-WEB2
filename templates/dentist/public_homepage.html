@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}
+        {% trans 'Home page' %}    
+{% endblock %}
+
+{% block mobile_assets %}
+<script type="text/javascript" src="/site_static/mobile-app/js/m-dentist.js"></script>
+{% endblock %}
+
+{% block style %}
+    <link rel="stylesheet" type="text/css" href="/site_static/css/homepage.css">
+{% endblock %}
+{% block script %}
+<script data-main="/site_static/js/js-build/scripts/dentist/den_public" src="/site_static/js/js-build/libs/require.js"></script>
+{% endblock %}
+
+{% block header %}
+    {% include 'header.html' %}
+{% endblock %}
+
+{% if flavour == "mobile" %}
+    {% block mobile %}
+        {% include 'm_post_tmpl.js' %}
+        {% include 'm_dhome_tmpl.js' %}
+        {% include 'mobile/m-header.html' %}
+        {% include 'mobile/m-d_profile.html' %}
+    {% endblock %}
+{% else %}
+
+{% block content %}
+{% include 'den_home.js' %}
+<div id="wrapper" class="container container-fluid" style="padding-top: 210px;">
+<div id="dentist_home">
+    {% include 'dentist/dentist_base_info.html' %}
+    <div class="den-content-wrap row-fluid radius-wrapper">
+        <div class="tab-group btn-group clearfix">
+            <a href="javascript:;" rel="post" data-title="Posts" class="den-tab btn disabled btn-primary btn-post btn-first" data-link="/ajax/d/{{object_id}}/stream/getpost/">Posts</a>
+            <a href="javascript:;" rel="profile" data-title="Profile" class="den-tab btn btn-profile" data-link="/ajax/d/{{object_id}}/profile/">Profile</a>
+            <a href="javascript:;" rel="gallery" class="den-tab btn btn-gallery" data-title="Gallery" data-link="/ajax/d/{{object_id}}/gallery/getcases/">Gallery</a>
+            <a href="javascript:;" rel="qa" data-title="Q&A" class="den-tab btn btn-qa btn-last" data-link="/ajax/d/{{object_id}}/qa/getqa/">Q&A</a>
+        </div>
+        <div id="den_content" class="span9">
+            <div id="timeline" class="den-block hide">
+                <div id="stream_line"></div>
+                <div id="msg_flow">
+                </div>
+                <div class="row-fluid timeline-footer">
+                    <div class="timeline-footer-wrap"></div>
+                </div>
+            </div>
+
+            <div id="profile" class="den-block hide">
+                <div class="section field-row">
+                    <h4 class="">Field/Specialty:</h4>
+                    <div id="den_field" class="den-pro-detail row-fluid"></div>
+                    <div id="den_field_unchoice" class="hide den-pro-detail row-fluid"></div>
+                </div>
+                <div class="section degree-row">
+                    <h4 class="">Degree:</h4>
+                    <div id="den_de_unchoice" class="hide den-pro-detail row-fluid"></div>
+                </div>
+                <div class="section">
+                    <h4 class="">Work Location:</h4>
+                    <div id="den_local" class="den-pro-detail"></div>
+                </div> 
+            </div>
+
+            <div id="gallery" class="den-block hide">
+                
+                <div id="gallery_list" class="clearfix">
+                    <h3 class="den-tip hide text-center">Still no case photos here.</h3>
+                </div>
+                <div class="pull-right">
+                    <a href="/gallery/{{object_id}}/case">More>>></a>
+                </div>
+            </div>
+            <div id="qa" class="den-block hide">
+                <ul id="qa_list">
+                    <h3 class="den-tip hide text-center">Still no question and answer here.</h3>
+                </ul>
+            </div>
+        </div> 
+        <div class="span3"> 
+        </div>
+    </div>
+</div>
+</div>
+{% endblock %}
+{% endif %}

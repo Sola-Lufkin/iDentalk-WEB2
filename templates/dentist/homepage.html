@@ -1,0 +1,230 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}
+{% trans 'Home page' %}
+{% endblock %}
+
+{% block mobile_assets %}
+<script type="text/javascript" src="/site_static/mobile-app/js/m-dentist.js"></script>
+{% endblock %}
+
+{% block style %}
+    <link rel="stylesheet" type="text/css" href="/site_static/css/homepage.css">
+    <link rel="stylesheet" type="text/css" href="/site_static/css/jcrop/jquery.Jcrop.css">
+{% endblock %}
+{% block script %}
+    <script data-main="/site_static/js/js-build/scripts/dentist/den_homepage" src="/site_static/js/js-build/libs/require.js"></script>
+{% endblock %}
+
+{% block header %}
+    {% include 'header.html' %}
+{% endblock %}
+
+{% if flavour == "mobile" %}
+    {% block mobile %}
+        {% include 'm_post_tmpl.js' %}
+        {% include 'm_dhome_tmpl.js' %}
+        {% include 'mobile/m-header.html' %}
+        {% include 'mobile/m-dhome.html' %}
+    {% endblock %}
+{% else %}
+
+{% block content %}
+{% include 'den_home.js' %}
+<div id="wrapper" class="container container-fluid" style="padding-top: 210px;">
+    <div id="dentist_home">
+        {% include 'dentist/dentist_base_info.html' %}
+        <div class="den-content-wrap row-fluid radius-wrapper">
+            <div class="tab-group btn-group row-fluid">
+                <a href="javascript:;" rel="post" data-title="Posts" class="den-tab active btn btn-post btn-first" data-link="{% url post_get %}">Posts</a>
+                <a href="javascript:;" rel="profile" data-title="Profile" class="den-tab btn btn-profile" data-link="{% url den_pro %}">Profile</a>
+                <a href="javascript:;" rel="gallery" data-title="Gallery" class="den-tab btn btn-gallery" data-link="{% url case_list %}">Gallery</a>
+                <a href="javascript:;" rel="qa" data-title="Q&A" class="den-tab btn btn-qa btn-last" data-link="/ajax/d/{{user.id}}/qa/getqa/">Q&A</a>
+             </div>
+            <div id="den_content" class="span9">
+                <div id="timeline" class="den-block hide">
+                    <div id="stream_line"></div>
+                    <div class="row-fluid section talkbox">
+                        <div class="span2">
+                            <div class="stream-avatar-wrap">
+                                <img src=" {{avatar}}" class="stream-avatar"> 
+                            </div>
+                        </div>
+                        <div class="span10">
+                            <div class="row-fluid section">
+                                <div class="span1">
+                                    <img src="/site_static/img/post-angle.png" class="post-angle">
+                                </div>
+                                <div class="span11">
+                                    <textarea name="post" id="msg_box" rows="3" class="span12 required" placeholder="Say Something"></textarea>
+                                    <div id="pre_img" class="hide span12">
+                                       <a href="javascript:;" class="del-post-img"><i class="icon-remove"></i></a> 
+                                    </div>
+                                    <div class="msg-tools span12">
+                                        <!-- <a id="upload_url" href="javascript:;" class="pull-right">
+                                            <i class="icon-link"></i>
+                                        </a> -->
+                                        <a id="upload_img" href="javascript:;" class="pull-right">
+                                            <i class="icon-camera"></i>
+                                        </a>
+                                    </div>
+                                    <input type="hidden" class="hide post-img" name="img">
+                                    <span id="msg_count" class="pull-left muted"></span>
+                                    <button class="btn btn-gray pull-right post-msg">Post</button>
+                                    <!-- <div class="span9 ml10">
+                                        <input type="checkbox" name="sync_fb" value="">Always share on my facebook
+                                    </div> -->
+                                </div>
+                            </div>
+                        </div>
+
+
+<!-- <a class="facebook" href="http://www.facebook.com/break" title="Share Us On Facebook" target="_blank" name="fb_share" share_url="<?php the_permalink()?>">Share Us On Facebook</a>
+<a class="twitter" href="http://twitter.com/home?status=<?php the_permalink(); ?>" title="Share Us On Twitter" target="_blank">Share Us On Twitter</a>
+<a class="google" href="https://plus.google.com/share?url=homepage&hl=en" title="Share Us On Google+" target="_blank">Share Us On Google+</a>
+<p><a href="https://www.facebook.com/dialog/oauth/?client_id=617649148261434&redirect_uri=http://www.identalk.com:8000/oauth&scope=email,read_friendlists,read_stream,publish_checkins,publish_actions,user_about_me&response_type=code">Post to facebook Wall</a></p>
+<h4><a id="__w2_nDpwWTz_fb_connect_button" href="https://www.facebook.com/dialog/oauth/?client_id=617649148261434&redirect_uri=http://www.identalk.com:8000/oauth&scope=email,read_friendlists,read_stream,publish_checkins,publish_actions,user_about_me&response_type=code" class="fb_button submit_button">Connected to Facebook</a></h4>
+ -->
+                    </div>
+                    <div id="msg_flow">
+                    </div>
+                    <div class="row-fluid timeline-footer">
+                        <div class="timeline-footer-wrap"></div>
+                    </div>
+                </div>
+
+                <div id="profile" class="den-block hide">
+                    <div class="section field-row">
+                        <h4 class="">Field/Specialty:
+                            <a href="javascript:;" class="orange-link icon-ok active" id="field_sub">OK</a> 
+                            <a href="javascript:;" class="choice-edit orange-link icon-edit" data-choicetype="field">Edit</a>
+                        </h4>
+                        <div id="den_field" class="den-pro-detail row-fluid"></div>
+                        <div id="den_field_unchoice" class="hide den-pro-detail row-fluid"></div>
+                    </div>
+                    <div class="section degree-row">
+                        <h4 class="">Degree:
+                            <a href="javascript:;" class="orange-link icon-ok active" id="degree_sub">OK</a>
+                            <a href="javascript:;" class="choice-edit orange-link icon-edit" data-choicetype="degree">Edit</a>
+                        </h4>
+                        <div id="den_degree" class="den-pro-detail row-fluid"></div> 
+                        <div id="den_de_unchoice" class="hide den-pro-detail row-fluid"></div>
+                    </div>
+                    <div class="section">
+                        <h4 class="">Work Location:
+                            <a id="worklocation_add" href="{% url den_pro_loc_add %}" class="orange-link icon-plus">Add</a>
+                        </h4>
+                        <div id="den_local" class="den-pro-detail"></div>
+                    </div> 
+                </div>
+
+                <div id="gallery" class="den-block hide">
+                    <div class="row-fluid">
+                        <a id="new_case" href="javascript:;" class="orange-link icon-plus pull-right">Add a case</a> 
+                    </div>
+                    <div id="gallery_list" class="clearfix">
+                        <h3 class="den-tip hide text-center">Upload case photos here.</h3>
+                    </div>
+                    <div class="pull-right">
+                        {% if identity == "D" %}
+                        <a href="/gallery/{{user.id}}/case">More>>></a>
+                        {% else %}
+                        <a href="/gallery/{{object_id}}/case">More>>></a>
+                        {% endif %}
+                    </div>
+                    <div id="uploader_wrap" class="hide">
+                        <div class="create_case">
+                            <form id="" action="{% url case_base_add %}" class="caseinfo_form form form-horizontal" method="POST">
+                                <div class="control-group">
+                                    <label for="" class="control-label orange-label">Case Name:</label>
+                                    <div class="controls"><input name="case_name" type="text" class="required"></div>
+                                </div>
+                                <div class="control-group">
+                                    <label for="" class="control-label orange-label" style="padding-left:13px;">Description：</label>
+                                    <div class="controls">
+                                        <textarea rows="6" name="description" class="input-xlarge required"></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-actions">
+                                    <button class="sub_caseinfo pull-right btn btn-orange">Next</button>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="upload-case hide">
+                            <div class="row-fluid">
+                                <h2 class="span6 text-center">Before</h2>
+                                <h2 class="span6 text-center">After</h2>
+                            </div>
+                            <div class="preview_case clearfix"></div>
+                            <div class="text-center">
+                                <form class="caseimg_form form form-inline" action="{% url case_img_add %}" target="case_img_iframe"  enctype="multipart/form-data" method="POST">
+                                    <input type="file" name="bef_img" class="required">
+                                    <input type="file" name="aft_img" class="required">
+                                    <input type="hidden" class="case_id" name="case_id">
+                                    <div class="iframe_wrap hide"></div>
+                                    <div class="case-intro clearfix mt30">
+                                        <button class="sub_caseimg btn btn-success btn-large">Upload images</button>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="form-actions">
+                                <button class="btn btn-orange pull-right sub-case invisible">Finish</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="qa" class="den-block hide">
+                    <div class="row-fluid">
+                        <a id="new_qa" href="javascript:;" class="orange-link icon-plus pull-right">Add a Q&A</a> 
+                    </div>
+                    <ul id="qa_list">
+                        <h3 class="den-tip hide text-center">Add a frequently asked question and its answer.</h3>
+                    </ul>
+                    <div class="qa-form-wrap hide">
+                        <form id="" action="{% url put_qa %}" class="qa-form form form-horizontal" method="POST">
+                            <input type="hidden" name="qa_owner_id" value="{{user.id}}">
+                            <div class="control-group">
+                                <label for="" class="control-label orange-label">Q:</label>
+                                <div class="controls">
+                                    <input name="question" type="text" class="input-xxlarge required">
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label for="" class="control-label orange-label">A:</label>
+                                <div class="controls">
+                                    <textarea rows="10" name="answer" class="input-xxlarge required"></textarea>
+                                </div>
+                            </div>
+                            <div class="form-actions">
+                                <button class="sub_qa pull-right btn btn-orange">Submit</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            {% if own %}
+            <div class="span3"> 
+            </div>
+            {% endif %}
+
+        </div> 
+    </div>
+        
+    {% if not email_active %}
+        <script>
+            (function(){
+                var content = document.getElementsByTagName('body')[0],
+                    header = document.getElementById('header'),
+                    notice = document.createElement('div');
+                notice.className = 'alert text-center';
+                notice.innerHTML = 'Email address not verified <a href="{% url send_email %}">Click</a> to resend verify email';
+                notice.setAttribute( 'style', 'z-index: 4' );
+                content.insertBefore(notice, header);
+            })();
+        </script>
+    {% endif %}
+</div>
+{% endblock %}
+{% endif %}

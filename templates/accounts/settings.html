@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{% load i18n %}
+{% block title %}
+    {% trans "Settings" %}
+{% endblock %}
+{% block style %}
+{% endblock %}
+
+{% block script %}
+	<script data-main="/site_static/js/js-build/scripts/common/settings" src="/site_static/js/libs/require.js"></script>
+{% endblock %}
+
+{% block header %}
+    {% include 'header.html' %}
+{% endblock %}
+
+{% block content %}
+<div id="wrapper" class="container container-fluid">
+	<div class="row-fluid radius-wrapper bg-content">
+		<div id="left-sidebar" class="span3">
+			<h1 class="sidebar-title">
+				<i class="icon-cogs"></i><span>Settings</span>
+			</h1>
+			<ul class="sidebar-list" style="margin-top:31px;">
+				<li class="tab active" data-target="general-panel"><i class="icon-wrench"></i><div class="plist-item" style="padding-right:133px;">General</div></li>
+				{% if identity == "D" %}
+				<li class="tab" data-target="identify-panel"><i class="icon-info-sign"></i><div class="plist-item" style="padding-right:135px;">Identify</div></li>
+				{% endif %}
+				<li class="tab" data-target="invite-panel"><i class="icon-group"></i><div class="plist-item" style="padding-right:95px;">Invite Friends</div></li>
+			</ul>
+		</div>
+		<div id="main-content" class="span9 pull-right">
+			<div id="general-panel" class="content-inner">
+				<h1 class="plist-title end-line">General Settings</h1>
+				<ul class="conntent-inner-list">
+					<li class="row-fluid" style="padding: 12px 29px;">
+						<label class="span4">Email</label>
+						<div class="span4">{{ user.email }}</div>
+						{% if not email_active %}
+						<a href="{% url send_email %}" class="btn span3 btn-danger email-btn pull-right">Verify Email</a>
+						{% endif %}
+					</li>
+					<li class="row-fluid" style="padding: 12px 29px;">
+						<label class="span4">Password</label>
+						<div class="span4">
+							<a href="{% url auth_password_change %}">Click to change a new one</a>
+						</div>
+					</li>
+					<!-- <li class="row-fluid last">
+						<label class="span4">Lanuage</label>
+						<div class="span4"></div>
+					</li> -->
+				</ul>
+			</div>
+			{% if identity == "D" %}
+			<div id="identify-panel" class="hide content-inner">
+				<h1 class="plist-title end-line">Identify</h1>
+				<div class="pre-pic ml30">
+					<p>We need to verify you're a dentist. Please upload a photo which can prove it, eg. you're working, in your clinic, wearing your dental uniform, beside your dental unit...</p>
+					{% if prove_pic %}
+			            <img src="{{ prove_pic }}" style="width: 40%;">
+			        {% else %}
+			        {% endif %}
+				</div>	
+				<div class="ml30">
+		            <a href="javascript:;" class="btn btn-success upload-prove">Upload</a>
+			    </div>
+			</div>
+			{% endif %}
+			<div id="invite-panel" class="hide content-inner">
+				<h1 class="plist-title end-line">Invite Friends</h1>
+				<div class="mb10 ml30 clearfix">
+					<div class="mb50 mt20">
+						<a class="btn btn-info" href="https://accounts.google.com/o/oauth2/auth?response_type=code&client_id=159968613525.apps.googleusercontent.com&redirect_uri=http://{{site}}/oauth&scope=https://www.google.com/m8/feeds+https://www.googleapis.com/auth/userinfo.email&state=">Invite My Gmail Contacts
+					</a>
+					</div>
+					<!-- <div>
+						<a class="btn" href="https://login.live.com/oauth20_authorize.srf?client_id=00000000400EDC5A&scope=wl.basic&response_type=code&redirect_uri=http://{{site}}/ms/oauth">Invite My Hotmail Contacts</a>
+					</div> -->
+				</div>
+				<form class="ml30" action="/invite_friends" method="post" enc-type="application/x-www-form-urlencoded">
+					<P>or enter email address here</P>
+		        	<textarea class="span10 required" name="friends_emails" placeholder="Enter emails by comma seperater like this: du@hotmail.com, lusa@gmail.com"></textarea>
+		        	<button class="btn btn-success invite-btn" type="submit">Invite My Friends</button>
+		   		 </form>	
+			</div>
+		</div>
+	</div>
+</div>
+
+{% endblock %}

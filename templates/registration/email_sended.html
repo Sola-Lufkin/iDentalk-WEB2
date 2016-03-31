@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block header %}
+	{% include 'header.html' %}
+{% endblock %}
+{% block content %}
+<div id="wrapper" class="container container-fluid">
+<p>{% trans "Email have sended." %}</p>
+<a href="{% url send_email %}">Send again</a>
+</div>
+{% endblock %}

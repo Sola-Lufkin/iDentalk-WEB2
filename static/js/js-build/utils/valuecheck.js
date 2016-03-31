@@ -1,0 +1,1 @@
+define(["jquery"],function(){$.fn.identalk_valuecheck=function(){var e=!0;return this.each(function(){var t=$(this),n=t.val(),r=n.replace(/(^\s*)|(\s*$)/g,"");if(r==""||r==null)e=!1}),e}});

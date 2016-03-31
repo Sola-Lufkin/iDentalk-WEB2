@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% load i18n %}
+{% block title %}
+    {% trans "Invite my friends" %}
+{% endblock %}
+{% block style %}
+{% endblock %}
+
+{% block script %}
+	<script data-main="/site_static/js/js-build/scripts/common/index" src="/site_static/js/libs/require.js"></script>
+{% endblock %}
+
+{% block header %}
+    {% include 'header.html' %}
+{% endblock %}
+
+{% block content %}
+<div id="wrapper" class="container container-fluid">
+	<div class="row-fluid radius-wrapper">
+		<h1 style="margin-left:20px;">Invite my contacts</h1>
+		<form action="{% url invite_contacts %}" class="form-horizontal section" method="post" style="margin-left:35px;">
+			{% for c in contacts %}
+				<p>
+				<label class="checkbox">
+					<input type="checkbox" value="{{ c.email }}" name="contacts" checked>
+					{{ c.name }}
+				</label>
+				</p>
+			{% endfor %}
+			<button type="submit" class="btn btn-success span4">Invite</button>
+		</form>
+	</div>
+</div>
+{% endblock%}

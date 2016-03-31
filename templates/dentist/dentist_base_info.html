@@ -1,0 +1,178 @@
+{% load i18n %}
+
+{% load truncate_filters %}
+
+<div class="den-info row-fluid">
+    <div class="pull-left avatar-wrapper">
+        {% if BaseObj.imagebig %}
+        <a href="javascript:;"><img src="{{BaseObj.imagebig.url}}" class="avatar dentist-avatar thumbnail" /></a>
+        {% else %}
+        <a href="javascript:;"><img src="/site_static/img/8.png" class="avatar dentist-avatar thumbnail" /></a>
+        {% endif %}
+        <ul class="row-fluid follow-info">
+            <li class="span6 text-center">
+                <dt>Patients<br>&nbsp;</dt>
+                <dd>{{ Info.patient_count }}</dd>
+            </li>
+            <!-- <li class="span4 text-center">
+                <dt>Connecting<br>Publics</dt>
+                <dd>{{ Info.request_count }}</dd>
+            </li> -->
+            <li class="span6 text-center">
+                <dt>Followers<br>&nbsp;</dt>
+                <dd>{{ Info.follower_count }}</dd>
+            </li>
+        </ul>
+
+        {% if is_private %}
+        <h3 class="img-tip img-intro hide"><p>Change</p></h3>
+        <div class="hide" id="upload_avatar_wrapper">
+            <div class="well row-fluid">
+                <div class="row-fluid section upload-img">
+                    <div class="span6 ml10 avatar-panel">
+                        <img class="ferret" src="/site_static/img/8.png" alt="">
+                    </div>
+                    <div class="span4 offset1">
+                        <a href="javascript:;" class="choose_avatar btn btn-gray upload-btn btn-block btn-large">Upload a photo</a>
+                    </div>
+                </div>
+                <form class="resize_form row-fluid" action="/upload_avatar" method="POST">
+                    <input type="hidden" name="x1" value="260" />
+                    <input type="hidden" name="y1" value="260" />
+                    <input type="hidden" name="x2" value="260" />
+                    <input type="hidden" name="y2" value="260" /> 
+                    <button class="upload_avatar hide btn btn-gray span3 ml10 mb10 save-img">Save your avatar</button>
+                </form>
+            </div>
+        </div>
+        {% endif %}
+
+    </div>
+    <div class="pull-left baseinfo">
+        <h1 class="clearfix">
+            <div class="icon-doc-big"><i class="icon-user-md"></i></div>
+            {{title_var}} {{myname|truncate_chars:20}}{{objname|truncate_chars:20}}
+            {% if is_private %}    
+            <a ref="javascript:;" id="edit_baseinfo" class="sprite-icon sprite-icon-edit"></a>
+            {% endif %}
+        
+            <div class="pull-right push-bar">
+                {% if rel_status = -1 %}
+                <a class="follow-action sprite-icon sprite-icon-follow pull-left" href="/ajax/relationship/follow/{{object_id}}"></a>
+                <a class="follow-action sprite-icon sprite-icon-connect pull-left" href="/ajax/relationship/connect/{{object_id}}"></a>
+                {% endif %}
+                {% if rel_status = 0%}
+                <a class="follow-action sprite-icon sprite-icon-unfollow pull-left" href="/ajax/relationship/unfollow/{{object_id}}"></a>
+                <a class="follow-action sprite-icon sprite-icon-connect pull-left" href="/ajax/relationship/connect/{{object_id}}"></a>
+                {% endif %}
+                {% if rel_status = 1%}
+                <a class="follow-action sprite-icon sprite-icon-follow hide pull-left" href="/ajax/relationship/follow/{{object_id}}">Follow</a>
+                <a class="follow-action sprite-icon sprite-icon-request pull-left" href="/ajax/relationship/cancelrequest/{{object_id}}"></a>
+                {% endif %}    
+                {% if rel_status = 2%}
+                <a class="follow-action sprite-icon sprite-icon-connecting pull-left" href="/ajax/relationship/unconnect/{{object_id}}">Unconnect</a>
+                {% endif %}    
+            </div>
+
+        </h1>
+        <p class="summary">{{BaseObj.summary|truncate_chars:155}}</p>
+        <div class="d-info">
+             <div class="row-fluid">
+                <span class="sprite-icon sprite-icon-info sprite-icon-home"></span>
+                <span class="doc">
+                    Work at:
+                    {% for WorkPlaceQuery in WorkPlaceQuery %}
+                    {{WorkPlaceQuery.clinic_name}}
+                    {% endfor %}
+                </span>
+            </div>
+            <div class="row-fluid">
+                <span class="sprite-icon sprite-icon-info sprite-icon-email"></span>
+                <span class="doc">
+                    Work Email:
+                    {{Info.workemail}}
+                </span>
+            </div>
+        </div>
+    </div>
+    {% if is_private %}
+        <div class="pull-right baseinfo-actions">
+            <!-- <a class="btn btn-blue" href="/dentist/{{user.id}}">{% trans "Public View" %}</a> -->
+            <div class="hide" id="edit_baseinfo_form">
+                <form action="{% url den_pro_base %}" method="POST" class="form-horizontal base_info_form">
+                    <div class="control-group">
+                        <label for="" class="control-label orange-label"><b class="required-tag">*</b>First Name:</label>
+                        <div class="controls">
+                            <input type="text" class="required" name="first_name" value="{{Info.first_name}}">
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label for="" class="control-label orange-label" ><b class="required-tag">*</b>Last Name:</label>
+                        <div class="controls">
+                            <input type="text" class="required" name="last_name" value="{{Info.last_name}}">
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label for="" class="control-label orange-label"><b class="required-tag">*</b>Title:</label>
+                        <div class="controls">
+                            {% if Info.title == "1" %}
+                                <input type="radio" name="title" value="1" class="required" checked="checked">Dr.
+                            {% else %}
+                                <input type="radio" name="title" value="1" class="required">Dr.
+                            {% endif %}
+
+                            {% if Info.title == "2" %}
+                                <input type="radio" name="title" value="2" class="required" checked="checked">Prof.
+                            {% else %}
+                                <input type="radio" name="title" value="2" class="required">Prof.
+                            {% endif %}
+
+                            {% if Info.title == "3" %}
+                                <input type="radio" name="title" value="3" class="required" checked="checked">Mr.
+                            {% else %}
+                                <input type="radio" name="title" value="3" class="required">Mr.
+                            {% endif %}
+
+                            {% if Info.title == "4" %}
+                                <input type="radio" name="title" value="4" class="required" checked="checked">Ms.
+                            {% else %}
+                                <input type="radio" name="title" value="4" class="required">Ms.
+                            {% endif %}
+
+                            {% if Info.title == "5" %}
+                                <input type="radio" name="title" value="5" class="required" checked="checked">Dr(Prof).
+                            {% else %}
+                                <input type="radio" name="title" value="5" class="required">Dr(Prof).
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label for="" class="control-label orange-label" >Work Email:</label>
+                        <div class="controls">
+                        {% if Info.same_account_email %}
+                            <input class="hide" type="text" name="workemail" value="{{Info.workemail}}">
+                            <p class="mail-holder">{{Info.workemail}}</p>
+                            <input type="checkbox" name="same_account_email" checked="checked">
+                            <small class="muted">Same as account email</small>
+                        {% else %}
+                            <input type="text" name="workemail" value="{{Info.workemail}}">
+                            <p class="hide mail-holder">{{user.email}}</p>
+                            <input type="checkbox" name="same_account_email">
+                            <small class="muted">Same as account email</small>
+                        {% endif %}
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label for="" class="control-label orange-label">Summary</label>
+                        <div class="controls">
+                            <textarea class="summary-input" name="summary" cols="30" rows="4">{{BaseObj.summary}}</textarea>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button class="sub_base_info btn btn-orange pull-right" type="submit">Save</button>
+                    </div>
+                </form>     
+            </div>
+        </div>
+        {% endif %}
+</div>

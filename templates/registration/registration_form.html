@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Sign in{% endblock %}
+{% load i18n %}
+{% block script %}
+<script src="/site_static/js/js-build/libs/require.js" data-main="/site_static/js/js-build/scripts/common/index"></script>
+{% endblock %}
+{% block header %}
+	{% include 'header.html' %}
+{% endblock %}
+{% block scripts %}
+{% endblock %}
+{% block content %}
+<div id="wrapper" class="container container-fluid">
+<form id="register_form" method="post" action="." class="form-horizontal well require-form">
+	<legend>{% trans 'To join iDentalk, sign up below...' %}</legend>
+	{% csrf_token %}
+		{{ form.as_p }}
+	<button type="submit" class="btn btn-blue">{% trans 'Join iDentalk' %}</button>
+	<div class="mt10">
+		Already on iDentalk? <a href="/accounts/login/">Sign in</a>
+	</div>
+</form>
+</div>
+{% endblock %}

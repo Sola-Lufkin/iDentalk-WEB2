@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "Gallery" %}{% endblock %}
+
+{% block header %}
+    {% include 'header.html' %}
+{% endblock %}
+
+{% block style %}
+<link rel="stylesheet" type="text/css" href="/site_static/css/homepage.css">
+{% endblock %}
+
+{% block script %}
+<script data-main="/site_static/js/js-build/scripts/dentist/gallery_edit" src="/site_static/js/js-build/libs/require.js"></script>
+{% endblock %}
+
+{% if flavour == "mobile" %}
+    {% block mobile %}
+        {% include 'mobile/m-header.html' %}
+       	{% include 'mobile/m-case.html' %}
+    {% endblock %}
+{% else %}
+
+{% block content %}
+<div id="wrapper" class="container container-fluid">
+	{% if is_private %}
+    <div class="case-bar">
+    	<a href="javascript:;" class="newicon newicon-edit case-tool" id="case_edit">Edit</a>
+		<a href="javascript:;" id="case_upload" class="newicon newicon-upload case-tool">UPLOAD</a>
+		<a href="#" class="newicon newicon-trash case-tool" id="case_del" rel="{{ CaseObj.id }}" data-msg="Are you sure to delete this case?" data-uid="{{user.id}}">Del this Case</a>
+    </div>
+	{% endif %}
+	<div class="radius-wrapper case-wrapper">
+		<div class="case-actions">
+			<h4 class="row-fluid">
+	            <a class="ml30 block mt10 back-link" href="/gallery/{{owner.id}}/case">Back Gallery</a>
+			</h4>
+			<hr>
+			<div class="text-center">
+				{% if is_private %}
+				<h2 id="case_name" rel="{{ CaseObj.id }}">{{ CaseObj.case_name }}</h2>
+				<p id="case_des" class="muted">{{ CaseObj.description }}</p>
+				{% else %}
+				<h2 rel="{{ CaseObj.id }}">{{ CaseObj.case_name }}</h2>
+				<p  class="muted">{{ CaseObj.description }}</p>
+				{% endif %}
+				<div class="case-info-form hide">
+					<form action="{% url case_info_update %}" class="form form-horizontal" method="POST">
+						<input type="hidden" name="case_id" value="{{ CaseObj.id }}">
+						<div class="control-group">
+                            <label for="" class="control-label orange-label">Case Name:</label>
+                            <div class="controls"><input name="case_name" type="text" value="{{ CaseObj.case_name }}" class="required"></div>
+                        </div>
+                        <div class="control-group">
+                            <label for="" class="control-label orange-label">Description:</label>
+                            <div class="controls">
+                                <textarea rows="6" name="description" class="input-xlarge required">{{ CaseObj.description }}</textarea>
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <button class="update_caseinfo btn btn-orange pull-right">Submit</button>
+                        </div>
+					</form>
+				</div>
+			</div>
+		</div>
+		{% if is_private %}
+		<div id="uploader_wrap" class="hide">
+	        <div class="upload-case">
+	        	<div class="row-fluid">
+	                <h2 class="span6 text-center">Before</h2>
+	                <h2 class="span6 text-center">After</h2>
+	            </div>
+	            <div class="preview_case clearfix"></div>
+	            <div class="text-center">
+	                <form class="caseimg_form form form-inline" action="{% url case_img_add %}" target="case_img_iframe"  enctype=multipart/form-data method="POST">
+	                    <input type="file" name="bef_img" class="required case_img">
+	                    <input type="file" name="aft_img" class="required case_img">
+	                    <input type="hidden" class="case_id" name="case_id" value="{{ CaseObj.id }}">
+	                 	<div class="iframe_wrap hide"></div>
+	                 	<div class="case-intro clearfix mt30">
+	                        <button class="sub_caseimg btn btn-success btn-large">Upload images</button>
+	                        <div class="muted strong">select case img to upload</div>
+	                        <div class="muted strong">or</div>
+	                        <div class="muted strong">skip it by clicking the finish button directly</div>
+	                    </div>
+	                </form>
+	            </div>
+	            <div class="form-actions">
+	                <button class="btn btn-orange sub-case pull-right">Finish</button>
+	            </div>
+	        </div>
+	    </div>
+	    {% endif %}
+	    <hr style="width:80%;margin-left:10%;">
+	    <div style="text-align:center;color:#666666;" class="row-fluid"><h2 class="span6">Before</h2>  <h2 class="span6">After</h2></div>
+	    {% for CaseImgDict in CaseImgDict %}
+		<div class="row-fluid case_img_list" id="caseimg-{{CaseImgDict.id}}">
+			{% if is_private %}
+			<a href="javascript:;" class="case-img-del newicon newicon-minus" rel="{{CaseImgDict.id}}" title="DELETE" data-msg="Are you sure to delete this photos?">X</a>
+			{% endif %}
+			<a href="{{CaseImgDict.bef_img.url}}" class="case_img_small">
+				<img src="{{CaseImgDict.bef_img.url}}" alt="Before" class="" >
+			</a>
+			<a href="{{CaseImgDict.aft_img.url}}" class="case_img_small">
+				<img src="{{CaseImgDict.aft_img.url}}" alt="After" class="" >
+			</a>
+		</div>
+		{% endfor %}
+	</div>
+</div>
+{% endblock %}
+{% endif %}

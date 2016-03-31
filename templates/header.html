@@ -1,0 +1,98 @@
+{% load i18n %}
+{% include 'header_msg.js' %}
+<div id="header" class="navbar">
+    <div class="navbar-inner nav-header-top">
+        <div class="container">
+            <a href="/" class="brand"><img class="logo" src="/site_static/img/logo.png"></a>
+            <ul class="nav pull-right">
+                {% if user.is_authenticated %}
+                <li class="dropdown">
+                    <button type="button" class="userinfo dropable btn btn-grey">
+                        {{ user.first_name }} {{ user.last_name }}
+                        <span class="tranggle-s"></span>
+                    </button>
+                    <ul class="dropdown-menu minidrop">
+                        <li><a href="{% url settings %}">Settings</a></li>
+                        <li><a href="{% url auth_logout %}">{% trans "Sign out" %}</a></li>
+                    </ul>
+                </li>
+               <!--  <li class="dropdown">
+                    <a class="lang dropable" href="javascript:;">Language</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="">中文</a></li>
+                        <li><a href="">English</a></li>
+                    </ul>
+                </li> -->
+                {% else %}
+                <form class="dropdown mt10" action="{% url search_by_name %}" method="get">
+                    <button type="button" class="btn btn-grey dropable pull-left">
+                        Find a dentist by name
+                        <!-- <span class="tranggle-s"></span> -->
+                    </button>
+                    <!-- <ul class="dropdown-menu minidrop">
+                        <li><a title="Search by Location" href="{% url search_by_other %}">Location</a></li> 
+                    </ul> -->
+                    <input type="text" class="search-query bg-grey" name="keyword" placeholder="Type the name">
+                    <!-- <button type="submit" class="btn btn-small">Search</button> -->
+                </form> 
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+    <div class="navbar-inner nav-header-bottom">
+        <div class="container">
+            <ul class="nav pull-left">
+                {% if user.is_authenticated %}
+                {% if identity == "D" %}
+                <li><a id="den_home" href="{% url den_homepage %}">{% trans "Home" %}</a></li>
+                {% else %}
+                <li><a id="pat_home" href="{% url pat_homepage %}">{% trans "Home" %}</a></li>
+                <li><a id="pat_pro" href="{% url pa_pro %}">{% trans "Profile" %}</a></li>
+                {%  endif %}
+                <li class="dropdown">
+                    <a class="dropable" id="message" href="{% url click_msg_notice %}">MyDentalk<span class="message-count badge badge-info"></span></a>
+                    <ul id="message_list" class="dropdown-menu talkdrop">
+                       <li class="more-msg"><a href="{% url mails %}">See More</a></li> 
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="{% url notice_click %}" class="notice">Notifications <span class="notice-count badge badge-info"></span></a>
+                </li>
+                {% if identity == "D" %}
+                <li>
+                    <a id="den_patlist" href="{% url pat_manage %}">PatientList</a>
+                </li>
+                <li>
+                    <a id="den_gallery" href="/gallery/{{user.id}}/case">Gallery</a>
+                </li>
+                {% else %}
+                <!-- <li>
+                    <a id="pat_cal" href="/p/{{user.id}}/calendar/">Mycalendar <span class="cal-count badge badge-info"></span></a>
+                </li> -->
+                {% endif %}
+            {% endif %}
+            </ul>
+            {% if identity == "P" %}
+            <form class="header-form-search dropdown" action="{% url search_by_name %}" method="get">
+                <button type="button" class="btn btn-grey dropable">
+                    Find a dentist by name
+                    <span class="tranggle-s"></span>
+                </button>
+                <ul class="dropdown-menu minidrop">
+                    <li><a title="Search by Location" href="{% url search_by_myloc %}">By location</a></li> 
+                </ul>
+                <input type="text" class="search-query bg-grey" name="keyword" placeholder="Type the name">
+                <!-- <button type="submit" class="btn btn-small">Search</button> -->
+            </form>
+            {% endif %}
+            {% if not user.is_authenticated %}
+            <form class="pull-right form-inline" method="POST" id="header_login_form" action="/accounts/login/">
+                {% csrf_token %}
+                <input name="username" type="text" class="bg-grey required" placeholder="email">
+                <input name="password" type="password" class="bg-grey required" placeholder="password">
+                <button type="submit" class="btn btn-grey">Sign in</button>
+            </form>
+            {% endif %}
+        </div>
+    </div>
+</div>

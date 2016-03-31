@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load truncate_filters %}
+
+{% block title %}Message{% endblock %}
+{% block style %}
+<link rel="stylesheet" href="/site_static/css/mail_notice.css" type="text/css">
+{% endblock %}
+{% block script %}
+{% if dentist %}
+<script data-main="/site_static/js/js-build/scripts/dentist/den_mail" src="/site_static/js/js-build/libs/require.js"></script>
+{% else %}
+<script data-main="/site_static/js/js-build/scripts/patient/pat_mail" src="/site_static/js/js-build/libs/require.js"></script>
+{% endif %}
+{% endblock %}
+
+{% block header %}
+    {% include 'header.html' %}
+{% endblock %}
+
+{% if flavour == "mobile" %}
+    {% block mobile %}
+        {% include 'm_post_tmpl.js' %}
+        {% include 'mobile/m-header.html' %}
+        {% include 'mobile/m-mail.html' %}
+    {% endblock %}
+{% else %}
+
+{% block content %}
+{% include 'mail.js' %}
+<div id="wrapper" class="container container-fluid">
+	<div class="row-fluid radius-wrapper bg-content">
+		<div id="left-sidebar" class="span3">
+			<h1 class="sidebar-title"><i class="icon-user"></i><span>My Inbox</span></h1>
+			<ul class="messger-list">
+				{% if dentist %}
+					{% for i in contacter_list %}
+					<li class="clearfix">
+						<a href="/mydentalk/{{i.patient_id}}" id="user_{{i.patient_id}}" rel="{{ i.patient_id }}">
+							<img src="{{ i.avatar }}" title="{{ i.patient_name }}" class="thumbnail">
+							<div class="den_intro">{{ i.patient_name|truncate_chars:19 }}</div>
+							{% if i.mails_count > 0 %}
+								<span class="unread-msg badge badge-important">{{i.mails_count}}</span>
+							{% endif %}
+						</a>
+					</li>
+					{% endfor %}
+				{% else %}
+					{% for i in contacter_list %}
+					<li class="clearfix">
+						<a href="/mydentalk/{{i.dentist_id}}" id="user_{{i.dentist_id}}" rel="{{ i.dentist_id }}">
+							<img src="{{ i.avatar }}" title="{{ i.dentist_name }}" class="thumbnail">
+							<div class="den_intro">{{ i.dentist_name }}</div>
+							{% if i.mails_count > 0 %}
+								<span class="unread-msg badge badge-important">{{i.mails_count}}</span>
+							{% endif %}
+						</a>
+					</li>
+					{% endfor %}
+				{% endif %}
+			</ul>
+		</div>
+		<div id="main-content" class="span9 pull-right mail-box">
+			<h1 class="end-line mail-title">No Selection</h1>
+			<h4 class="muted mt100 text-center">
+				No Conversation Selected
+			</h4>
+		</div>
+	</div>
+</div>
+{% endblock %}
+{% endif %}

@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block title %}Patients list{% endblock %}
+{% block mobile %}
+	{% include 'mobile/m-header.html' %}
+	<div data-role="content">
+		<div data-role="navbar">
+			<ul>
+		　　　 <li class="pat-type">
+					<a data-ajax="false" class="type-choose ui-btn-active" href="#">Connecting</a>
+				</li>
+				<li class="pat-type">
+					<a data-ajax="false" class="type-choose" href="#">Connected</a>
+				</li>
+	　　 	</ul>
+		</div>
+		<div class="well pat-list type-list">
+			{% for i in Connected_List %}
+			<div class="row-fluid">
+				<div class="span2">
+					<img width="50" height="50" src="{{ i.avatar }}" alt="" class="thumbnail">
+				</div>
+				<div class="span9 ml5">
+					<h5>{{ i.patient_name }}</h5>
+					<div class="pull-right">
+						<a class="small" data-ajax="false" href="/p/{{ i.patient_id }}">Profile</a>
+						<a class="small" data-ajax="false" href="/mydentalk/{{ i.patient_id }}">Message</a>
+					</div>
+				</div>
+			</div>
+			{% endfor %}
+		</div>
+		<div class="well pat-list type-list hide">
+			{% for i in Connecting_List %}
+			<div class="row-fluid">
+				<div class="span2">
+					<img src="{{ i.avatar }}" alt="" class="thumbnail">
+				</div>
+				<div class="span9 ml5">
+					<h5>{{ i.patient_name }}</h5>
+					<div>
+						<a class="small" data-ajax="false" href="/p/{{ i.patient_id }}">Profile</a>
+					</div>
+				</div>
+			</div>
+			{% endfor %}
+		</div>
+	</div>	
+{% endblock %}

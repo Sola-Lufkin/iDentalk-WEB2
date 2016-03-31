@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block title %}Sign up{% endblock %}
+{% block script %}
+<script src="/site_static/js/libs/require.js" data-main="/site_static/js/js-build/scripts/common/index"></script>
+{% endblock %}
+
+{% block header %}
+<div class="window-tip label label-info">Loading...</div>
+<div id="header" class="navbar">
+    <div class="navbar-inner nav-header-top">
+        <div class="container">
+            <a href="/" class="brand"><img class="logo" src="/site_static/img/logo.png"></a>
+        </div>
+    </div>
+    <div class="navbar-inner nav-header-bottom">
+        <div class="container">
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div id="wrapper" class="container container-fluid">
+	<div class="row-fluid sign-up-panel">
+		<h2>Sign up as a public</h2>
+		<h3 class="muted" style="font-weight:normal;font-size:23px;">To find, follow, communicate with dentists freely</h3>
+		<div class="well sign-wrap pull-left">
+			<form action="{% url p_signup %}" method='post' class="form-inline require-form" id="signup_form">
+				{% csrf_token %}
+				{{ form.as_p }}
+				<div class="control-group clearfix">
+					<button type="submit" class="btn btn-gray mt20">{% trans "Create Account" %}</button>
+				</div>
+			</form>
+		</div>
+		<!-- <div class="well sign-wrap pull-right">
+			<a class="btn span10 mb10" id="__w2_nDpwWTz_google_connect_button" href="https://accounts.google.com/o/oauth2/auth?response_type=code&client_id=159968613525.apps.googleusercontent.com&redirect_uri=http://localhost:8000/oauth&scope=https://www.googleapis.com/auth/userinfo.profile+https://www.googleapis.com/auth/userinfo.email&state=" class="google_button submit_button">Sign In With Google Account
+			</a>
+			<a class="btn span10" id="__w2_nDpwWTz_fb_connect_button" href="https://www.facebook.com/dialog/oauth/?client_id=617649148261434&redirect_uri=http://www.identalk.com/oauth&scope=email,read_friendlists,read_stream,publish_checkins,publish_actions,user_about_me&response_type=code" class="fb_button submit_button">Connected to Facebook</a>
+		</div> -->
+	</div>
+</div>
+{% endblock %}

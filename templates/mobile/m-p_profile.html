@@ -1,0 +1,275 @@
+<div data-role="content" class="row-fluid">
+	<div class="pat-record-form radius-wrapper">
+		<h1>
+			Personal information
+		</h1>
+		<h2 class="form-title">Patient information</h2>
+		<div class="row-fluid black-form">
+			<div class="avatar-wrapper pull-left span5">
+				{% if Info.imagebig %}
+					<img src="{{Info.imagebig}}" class="thumbnail pat-avatar" /> 
+				{% else %}
+					<img src="/site_static/img/8.png" class="thumbnail pat-avatar" /></a>
+				{% endif %}
+			</div>
+				<table class="table baseinfo-table">
+					<tr>
+						<td class="baseinfo-title first">Name:</td>
+						<td class="baseinfo-content first">{{objname}}</td>
+					</tr>
+					<tr>
+						<td class="baseinfo-title">Gender:</td>
+						<td class="baseinfo-content">
+							{%if Info.gender == "M"%}
+							Male
+							{% else %}
+							Famle
+							{% endif %}
+						</td>
+					</tr>
+					<tr>
+						<td class="baseinfo-title">Age:</td>
+						<td class="baseinfo-content">{{age}}</td>
+					</tr>
+					<tr>
+						<td class="baseinfo-title">Email:</td>
+						<td class="baseinfo-content">{{Info.workemail}}</td>
+					</tr>
+					<tr>
+						<td class="baseinfo-title">Location:</td>
+						<td class="baseinfo-content">{{Info.location}}</td>
+					</tr>
+					<tr>
+						<td class="baseinfo-title">Summary:</td>
+						<td class="baseinfo-content">{{Info.summary}}</td>
+					</tr>
+				</table>
+		</div>
+		<h2 class="form-title">Questionnaire</h2>
+		<div class="black-form row-fluid">
+			<div class="choice-block first">
+				<h3>Have you ever had any of the following dental problems?</h3>
+				<div class="clearfix checklist-box">
+					{% if "1" in A %}
+					<label class="active">Gum bleeding</label>
+					{% else %}
+					<label>Gum bleeding</label>
+					{% endif %}
+
+					{% if "2" in A %}
+					<label class="active">Gum swelling</label>
+					{% else %}
+					<label>Gum swelling</label>
+					{% endif %}
+
+					{% if "3" in A %}
+					<label class="active">Jaw pain</label>
+					{% else %}
+					<label>Jaw pain</label>
+					{% endif %}
+
+					{% if "4" in A %}
+					<label class="active">Loose tooth</label>
+					{% else %}
+					<label>Loose tooth</label>
+					{% endif %}
+
+					{% if "5" in A %}
+					<label class="active">Teeth crowding</label>
+					{% else %}
+					<label>Teeth crowding</label>
+					{% endif %}
+
+					{% if "6" in A %}
+					<label class="active">Tooth decay</label>
+					{% else %}
+					<label>Tooth decay</label>
+					{% endif %}
+
+					{% if "7" in A %}
+					<label class="active">Tooth discoloration</label>
+					{% else %}
+					<label>Tooth discoloration</label>
+					{% endif %}
+
+					{% if "8" in A %}
+					<label class="active">Tooth fracture</label>
+					{% else %}
+					<label>Tooth fracture</label>
+					{% endif %}
+
+					{% if "9" in A %}
+					 <label class="active">Tooth loss</label>
+					{% else %}
+					 <label>Tooth loss</label>
+					{% endif %}
+
+					{% if "10" in A %}
+					 <label class="active">Tooth sensitivity</label>
+					{% else %}
+					 <label>Tooth sensitivity</label>
+					{% endif %}
+
+					{% if "11" in A %}
+					<label class="active">Toothache</label>
+					{% else %}
+					<label>Toothache</label>
+					{% endif %}
+					{% if "0" in A %}
+					<label class="active">Nove of the above</label>
+					{% else %}
+					<label>Nove of the above</label>
+					{% endif %}	
+				</div>
+			</div>
+			<div class="choice-block">
+				<h3>Have you ever had any of the following dental treatments?</h3>
+				<div class="clearfix checklist-box">
+					{% if "1" in B %}
+					<label class="active">Crown / Bridge</label>
+					{% else %}
+					<label>Crown / Bridge</label>
+					{% endif %}
+					{% if "2" in B %}
+					<label class="active">Implant</label>
+					{% else %}
+					<label>Implant</label>
+					{% endif %}
+					{% if "3" in B %}
+					<label class="active">Orthodontic therapy</label>
+					{% else %}
+					<label>Orthodontic therapy</label>
+					{% endif %}
+					{% if "4" in B %}
+					<label class="active">Partial/Full dentures</label>
+					{% else %}
+					<label>Partial/Full dentures</label>
+					{% endif %}
+					{% if "5" in B %}
+					<label class="active">Preventive measurements</label>
+					{% else %}
+					<label>Preventive measurements</label>
+					{% endif %}
+					{% if "6" in B %}
+					<label class="active">Root canal therapy</label>
+					{% else %}
+					<label>Root canal therapy</label>
+					{% endif %}
+					{% if "7" in B %}
+					<label class="active">Scaling</label>
+					{% else %}
+					<label>Scaling</label>
+					{% endif %}
+					{% if "8" in B %}
+					<label class="active">Tooth bleaching</label>
+					{% else %}
+					<label>Tooth bleaching</label>
+					{% endif %}
+					{% if "9" in B %}
+					<label class="active">Tooth extraction</label>
+					{% else %}
+					<label>Tooth extraction</label>
+					{% endif %}
+					{% if "10" in B %}
+					<label class="active">Tooth restoration</label>
+					{% else %}
+					<label>Tooth restoration</label>
+					{% endif %}
+					{% if "11" in B %}
+					<label class="active">Veneer</label>
+					{% else %}
+					<label>Veneer</label>
+					{% endif %}
+					{% if "0" in B %}
+					<label class="active">Nove of the above</label>
+					{% else %}
+					<label>Nove of the above</label>   
+					{% endif %}
+				</div>
+			</div>
+		</div>
+		<h2 class="form-title"></h2>
+		<div class="black-form row-fluid">
+			<div class="choice-block first">
+				<h3>How would you describe your oral health habits?</h3>
+				<div class="checklist-box">
+					{% if "1" in C %}
+					<label class="active">I brush my teeth at least twice a day.</label>
+					{% else %}
+					<label>I brush my teeth at least twice a day.</label>
+					{% endif %}
+					{% if "2" in C %}
+					<label class="active">I use fluoridated toothpaste.</label>
+					{% else %}
+					<label>I use fluoridated toothpaste.</label>
+					{% endif %}
+					{% if "3" in C %}
+					<label class="active">I use dental floss at least once a day.</label>
+					{% else %}
+					<label>I use dental floss at least once a day.</label>
+					{% endif %}
+					{% if "4" in C %}
+					<label class="active">I try to limit my intake of sugary snacks and drinks.</label>
+					{% else %}
+					<label>I try to limit my intake of sugary snacks and drinks.</label>
+					{% endif %}
+					{% if "5" in C %}
+					<label class="active">I visit my dentist regularly for oral examination and scaling.</label>
+					{% else %}
+					<label>I visit my dentist regularly for oral examination and scaling.</label>
+					{% endif %}
+					{% if "6" in C %}
+					<label class="active">I don't smoke.</label>
+					{% else %}
+					<label>I don't smoke.</label>
+					{% endif %}
+					{% if "0" in C %}
+					<label class="active">Nove of the above</label>
+					{% else %}
+					<label>Nove of the above</label>
+					{% endif %}
+				</div>
+			</div>
+			<div class="choice-block">
+				<h3>How would you describe your oral health status?</h3>
+				<div class="checklist-box clearfix">
+					{% if "1" in D %}
+					<label class="active">Excellent</label>
+					{% else %}
+					<label>Excellent</label>
+					{% endif %}
+					{% if "2" in D %}
+					<label class="active">Very good</label>
+					{% else %}
+					<label>Very good</label>
+					{% endif %}
+					{% if "3" in D %}
+					<label class="active">Good</label>
+					{% else %}
+					<label>Good</label>
+					{% endif %}
+					{% if "4" in D %}
+					<label class="active">Fair</label>
+					{% else %}
+					<label>Fair</label>
+					{% endif %}
+					{% if "5" in D %}
+					<label class="active">Poor</label>
+					{% else %}
+					<label>Poor</label>
+					{% endif %}
+					{% if "6" in D %}
+					<label class="active">Very poor</label>
+					{% else %}
+					<label>Very poor</label>
+					{% endif %}
+					{% if "7" in D %}
+					<label class="active">I don't know</label>
+					{% else %}
+					<label>I don't know</label>
+					{% endif %}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

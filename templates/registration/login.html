@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}Account Login{% endblock %}
+{% block script %}
+<script src="/site_static/js/js-build/libs/require.js" data-main="/site_static/js/js-build/scripts/common/index"></script>
+{% endblock %}
+
+{% block style %}    
+<link rel="stylesheet" href="/site_static/css/index.css">
+{% endblock %}
+
+{% block header %}
+{% endblock %}
+
+{% block emptybox %}
+<div class="landing">
+	<div class="landing-header">
+			
+			<a href="/" class="brand"><img src="/site_static/img/logo.png"></a>
+			<h1>the best social website for dentists and patients</h1>
+			<div class="flat-dialog flat-middle">
+
+				<form method="post" action="." class="form-horizontal">
+				    {% csrf_token %}	
+					<p>
+						<input name="username" maxlength="30" placeholder="Email" type="text" class="required flat-input" id="id_username" />
+					</p>
+					<p>
+
+						<input name="password" maxlength="30" placeholder="Password" type="password" class="required flat-input" id="id_password" />
+					</p>
+					<!-- <input class="flat-btn rectangle" type="submit" value="login" /> -->
+					<button class="flat-btn rectangle" type="submit">login</button>
+					<!-- or 
+					<a href="/signup/">Join iDentalk</a> -->
+					<input type="hidden" name="next" value="" />
+				</form>
+				<p class="mt10"><a href="/accounts/password/reset/">Forget password?</a></p>
+
+				<!-- <form method="post" action="." class="form-horizontal">	
+					{% csrf_token %}
+					{{ form.as_p }}
+					<input class="btn btn-blue" type="submit" value="{% trans 'Sign in' %}" />
+					or <a href="#">{% trans "Join iDentalk" %}</a>
+					<input type="hidden" name="next" value="{{ next }}" />
+				</form>
+				<p class="mt10"><a href="{% url auth_password_reset %}">{% trans "Forget password?" %}</a></p> -->
+			</div>
+			
+	</div>
+	<footer class="landing-footer"><!-- <span>© 2012-2013 iDentalk</span> --></footer>
+</div>
+{% endblock %}

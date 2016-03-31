@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block title %}Index{% endblock %}
+{% block script %}
+<script data-main="site_static/js/js-build/scripts/common/index" src="site_static/js/libs/require.js"></script>
+<!-- <script src="site_static/js/libs/jquery-1.8.2.min.js"></script>
+<script src="site_static/js/libs/jquery-validate/jquery.validate.js"></script>
+<script src="site_static/js/common/validate.js"></script -->
+{% endblock %}
+
+{% block style %}    
+<link rel="stylesheet" href="/site_static/css/index.css">
+{% endblock %}
+
+{% block header %}
+    
+{% endblock %}
+
+{% if flavour == "mobile" %}
+	{% block mobile %}
+		{% include 'mobile/m-index.html' %}
+	{% endblock %}
+{% else %}
+{% block emptybox %}
+<!-- <div id="wrapper" class="container container-fluid">
+	<div class="row-fluid index-pannel">
+		<div class="span7">
+			<div class="thumbnails index-gallery">
+				<img src="site_static/ex_pic/3.jpg" alt="" class="thumbnail">
+				<img src="site_static/ex_pic/2.jpg" alt="" class="thumbnail">
+				<img src="site_static/ex_pic/1.jpg" alt="" class="thumbnail">
+			</div>
+			<ul class="gallery-list">
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+			</ul>
+		</div>
+		<div class="span5 mt20">
+			<a class="btn btn-success btn-large span12 pull-right" href="">Sign up</a>
+		</div>
+	</div>
+</div> -->
+<div class="landing">
+	<div class="landing-header">
+		<a href="/" class="brand"><img src="/site_static/img/logo.png"></a>
+		<h1>the best social website 
+		for dentists and patients</h1>
+		<div class="flat-dialog flat-middle" style="min-height:370px;">
+			<!-- <a class="flat-btn mt50" href="#">Sign up</a> -->
+			<form id="apply_form" action="{% url apply %}" method="post">
+				<input name="email" maxlength="30" placeholder="EMAIL ADDRESS" type="text" class="required flat-input" id="id_username" />
+				<button id="account_apply" class="flat-btn rectangle" type="submit">Sign up</button>
+				<h5 class="mt80">
+					It's free and easy. &nbsp&nbsp Existing users
+					<a href="{% url auth_login %}">logn in</a>
+				</h5>
+			</form>
+		</div>
+	</div>
+	<footer class="landing-footer"><!-- <span>© 2013 <a href="mailto:r@identalk.com">iDentalk team</a></span> --></footer>
+</div>
+{% endblock %}
+{% endif %}

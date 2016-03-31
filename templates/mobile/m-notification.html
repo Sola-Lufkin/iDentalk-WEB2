@@ -1,0 +1,47 @@
+<div data-role="content">
+	{% if identity == "D" %}
+		<div class="row-fluid ">
+			<h3 class="end-line">Requst Box</h3>
+			<ul class="underline-list">
+				{% if D_RelationEventDict.count == 0 %}
+					<li class="muted"><h5>Sorry, You have no request notice here now</h5></li>
+				{% endif %}
+				{% for D_RelationEventObj in D_RelationEventDict%}
+					<li class="muted">
+						{{ D_RelationEventObj.event_object.relation_connecting_desc }}
+						<br>
+						<a data-ajax="false" href="/p/{{ D_RelationEventObj.user.id }}">View Profile</a>,&nbsp
+						<a href="/ajax/relationship/acceptrequest/{{ D_RelationEventObj.user.id }}" class="relation-action relation_accept">Accept</a><span>&nbsp or &nbsp</span>
+						<a href="/ajax/relationship/refuserequest/{{ D_RelationEventObj.user.id }}" class="relation-action relation_refuse">Refuse</a>
+					</li>
+				{% endfor %}
+			</ul>
+		</div>
+		<div class="row-fluid "> <!--Notice Dentist-->
+			<h3 class="end-line">Notice Box</h3>
+			<ul class="underline-list">
+				{% for EventObj in StreamEventDict%}
+					{% if EventObj.event_object.comment_content %}
+						<li class="muted">{{ EventObj.event_object.comment_desc }},&nbsp
+							<a data-ajax="false" href="/stream/getpost/{{ EventObj.event_object.post_id.id }}">Read More</a>
+						</li>
+					{% endif %}
+				{% endfor %}
+			</ul>
+		</div>
+	{% else %}
+		<div class="row-fluid "> <!--Notice Patient-->
+			<h3 class="end-line">Notice Box</h3>
+			<ul class="underline-list">
+				{% for P_RelationEventObj in P_RelationEventDict%}
+					<li class="muted">
+						<a href="/d/{{ P_RelationEventObj.user.id }}">
+							<h4>{{ P_RelationEventObj.user.username }}</h4>
+						</a>
+						{{ P_RelationEventObj.event_object.relation_connected_desc }}
+					</li>
+				{% endfor %}
+			</ul>
+		</div>
+	{% endif %}
+</div>

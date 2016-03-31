@@ -1,0 +1,5 @@
+body {
+  /*background: url("/site_static/img/bg-body.png") repeat 0 0 #000;*/
+  background-image: none;
+  background-color: #fff;
+}

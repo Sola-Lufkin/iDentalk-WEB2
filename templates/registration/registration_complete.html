@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Email send success{% endblock %}
+{% load i18n %}
+
+{% block header %}
+<div class="window-tip label label-info">Loading...</div>
+<div id="header" class="navbar">
+    <div class="navbar-inner nav-header-top">
+        <div class="container">
+            <a href="/" class="brand"><img class="logo" src="/site_static/img/logo.png"></a>
+        </div>
+    </div>
+    <div class="navbar-inner nav-header-bottom">
+        <div class="container">
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% if flavour == "mobile" %}
+    {% block mobile %}
+        <h5>{% trans "Please check your email" %}</h5>
+		<p>
+			{% trans "We've sent you an email" %}
+		</p>
+    {% endblock %}
+{% else %}
+
+{% block content %}
+<div id="wrapper" class="container container-fluid">
+<h5>{% trans "Please check your email" %}</h5>
+<p>
+	{% trans "We've sent you an email" %}
+</p>
+</div>
+{% endblock %}
+{% endif %}

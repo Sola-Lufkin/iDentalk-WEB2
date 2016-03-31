@@ -1,0 +1,93 @@
+<div data-role="content">
+	<div class="row-fluid">
+		{% if mail_per_page %} 
+		<div id="all_message" class="main radius-wrapper mail-box">
+			<div class="reply row-fluid">
+				<h1 class="end-line mail-title">Name</h1>
+				<form method="POST" action="{% url post_mail %}" id="message_form" class="row-fluid">
+					<input type="hidden" name="contact-id" value="{{uid}}">
+					<textarea name="content" cols="10" rows="5"></textarea>
+					<button data-theme="b" class="sub-message" type="submit">Send</button>
+				</form>
+			</div>
+			<div id="show_message">
+		      	{% for mail in mail_per_page.object_list %}
+					<div class="row-fluid">
+						{% if mail.own %}
+						{{ forloop.parentloop.own }}
+						<a href="/d/{{mail.uid}}" class="span3">
+							<img src="{{mail.avatar}}" class="thumbnail" alt="{{mail.name}}" title="{{mail.name}}">
+						</a>
+						<div class="mail-content pull-right span9">
+							<h4>{{ mail.name }}:</h4>
+							<div class="">{{mail.content}}</div>
+							<div class="pull-right small muted">{{mail.date}}</div>
+						</div>
+						{% else %}
+						<a href="/p/{{mail.uid}}" class="span3">
+							<img src="{{mail.avatar}}" class="thumbnail" alt="{{mail.name}}" title="{{mail.name}}">
+						</a>
+						<div class="mail-content pull-right span9">
+							<h4>{{ mail.name }}:</h4>
+							<div class="">{{mail.content}}</div>
+							<div class="pull-right small muted">{{mail.date}}</div>
+						</div>
+						{% endif %}
+					</div>
+				{% endfor %}
+			</div>
+			
+			<div class="pagination"> 
+				{% if mail_per_page %}
+				    <div id="pager" class="clearfix" data-role="controlgroup" data-type="horizontal">
+					    {% if mail_per_page.has_previous or mail_per_page.has_next  %}
+					    <span class="mail_per_page">
+						    <h5>Now is Page {{ mail_per_page.number }}</h5>
+						</span>
+					    {% endif %}
+						{% if mail_per_page.has_next %}
+						<a data-ajax="false" data-role="button" href="?page={{ mail_per_page.next_page_number }}">Next </a>
+						{% endif %}
+						{% if mail_per_page.has_previous %}
+						<a data-ajax="false" data-role="button" href="?page={{ mail_per_page.previous_page_number }}">Last</a>
+						{% endif %}
+				    </div>
+				{% endif %}
+			</div>
+		</div>
+	{% endif %}
+	</div>
+	<div class="row-fluid radius-wrapper">
+		<ul class="messger-list clearfix">
+			{% if dentist %}
+				{% for i in contacter_list %}
+				<li>
+					<a data-ajax="false" href="/mydentalk/{{i.patient_id}}" id="user_{{i.patient_id}}" rel="{{ i.patient_id }}">
+						<dl class="span2">
+			                <dt>
+			                	<img src="{{ i.avatar }}" title="{{ i.patient_name }}" class="thumbnail">
+			                </dt>
+			                <dd>{{ i.patient_name }}</dd>
+			            </dl>	
+						<span class="unread-msg">{{i.mails_count}}</span>
+					</a>
+				</li>
+				{% endfor %}
+			{% else %}
+				{% for i in contacter_list %}
+				<li>
+					<a data-ajax="false" href="/mydentalk/{{i.dentist_id}}" id="user_{{i.dentist_id}}" rel="{{ i.dentist_id }}">
+						<dl>
+							<dt>
+								<img src="{{ i.avatar }}" title="{{ i.dentist_name }}" class="thumbnail">
+							</dt>
+							<dd>{{ i.dentist_name }}</dd>
+						</dl>
+						<span class="unread-msg">{{i.mails_count}}</span>
+					</a>
+				</li>
+				{% endfor %}
+			{% endif %}
+		</ul>
+	</div>
+</div>

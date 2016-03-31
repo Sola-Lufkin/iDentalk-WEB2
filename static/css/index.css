@@ -1,0 +1,133 @@
+#content{
+    display: none;
+}
+
+body {
+  background: url("/site_static/img/bg-site.png") repeat 0 0 #000;
+  /*background-image: none;*/
+  background-color: #fff;
+}
+
+.flat-dialog{
+    width: 660px;
+    min-height: 325px;
+    border-radius: 20px;
+    -moz-border-radius: 20px;
+    -webkit-border-radius: 20px;
+    /*background-color: #E2E3E5;*/
+    background-color: #f2f1f2;
+}
+
+input.flat-input {
+    width: 70%;
+    height: 70px;
+    color: #c2b8b8;
+    font-size: 20px;
+    border-color: transparent;
+    border-radius: 10px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    margin: 30px auto 0px;
+    /*padding-right: 10px;*/
+    /*height: 150px;*/
+}
+
+.flat-middle{
+    z-index: 2;
+    position: relative;
+    margin: 23px auto -190px;
+    padding-bottom: 25px;
+}
+
+.landing{
+    height: 100%;
+}
+
+.landing-header{
+  text-align: center;
+  padding: 35px 60px;
+  /*height: 800px;*/
+
+}
+.landing-header h1 {
+    color: #888f96;
+    font-size: 35px;
+    font-family: arial;
+    line-height: 56px;
+}
+
+.landing-header h5{
+    color: #888f96;
+    font-size: 17px;
+    font-weight: lighter;
+    font-family: arial;
+    /*line-height: 56px;*/
+}
+
+.landing-footer{
+  background: #a1b7d9;
+  height: 81px;
+  /*height: 100%;*/
+  text-align: center;
+  color: #fff;
+  padding: 177px 60px 0;
+}
+
+#footer {
+  background: #a1b7d9;
+  /*height: 81px;*/
+  /*height: 100%;*/
+  text-align: center;
+  color: #fff;
+  margin-bottom: -30px;
+  padding-bottom: 20px;
+  /*padding: 177px 60px 0;*/
+}
+
+#footer a{
+    color: #fff;
+    text-decoration: underline;
+}
+/*
+.landing-footer span{
+    display: block;
+    margin-top: 40px;
+}*/
+
+.flat-btn{
+
+    background-color: #a1b7d9;
+    display: inline-block;
+    border-radius: 100px;
+    -moz-border-radius: 100px;
+    -webkit-border-radius: 100px;
+    padding: 44px 60px;
+    margin-bottom: 0;
+    font-size: 35px;
+    font-weight: bold;
+    line-height: 20px;
+    color: #FFFFFF;
+    text-align: center;
+    /*text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);*/
+    vertical-align: middle;
+    cursor: pointer;
+}
+
+.flat-btn:hover{
+    background-color: #f97487;
+}
+
+a.flat-btn:hover {
+    color: #FFFFFF;
+}
+
+.flat-btn.rectangle{
+    border-radius: 10px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-color: transparent;
+    width: 72%;
+    height: 70px;
+    margin: 20px auto 0px;
+    padding: 0px;
+}

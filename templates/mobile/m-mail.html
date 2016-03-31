@@ -1,0 +1,38 @@
+<div data-role="content">
+	<div class="well">
+		<h3>No Conversation Selected</h3>
+	</div>
+	<div class="row-fluid radius-wrapper">
+		<ul class="messger-list clearfix">
+			{% if dentist %}
+				{% for i in contacter_list %}
+				<li>
+					<a data-ajax="false" href="/mydentalk/{{i.patient_id}}" id="user_{{i.patient_id}}" rel="{{ i.patient_id }}">
+						<dl class="span2">
+			                <dt>
+			                	<img src="{{ i.avatar }}" title="{{ i.patient_name }}" class="thumbnail">
+			                </dt>
+			                <dd>{{ i.patient_name }}</dd>
+			            </dl>	
+						<span class="unread-msg">{{i.mails_count}}</span>
+					</a>
+				</li>
+				{% endfor %}
+			{% else %}
+				{% for i in contacter_list %}
+				<li>
+					<a data-ajax="false" href="/mydentalk/{{i.dentist_id}}" id="user_{{i.dentist_id}}" rel="{{ i.dentist_id }}">
+						<dl>
+							<dt>
+								<img src="{{ i.avatar }}" title="{{ i.dentist_name }}" class="thumbnail">
+							</dt>
+							<dd>{{ i.dentist_name }}</dd>
+						</dl>
+						<span class="unread-msg">{{i.mails_count}}</span>
+					</a>
+				</li>
+				{% endfor %}
+			{% endif %}
+		</ul>
+	</div>
+</div>

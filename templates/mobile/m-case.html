@@ -1,0 +1,8 @@
+<div data-role="content">
+	{% for CaseImgDict in CaseImgDict %}
+	<div class="row-fluid case_img_list">
+		<img src="{{CaseImgDict.bef_img.url}}" alt="Before" class="" >
+		<img src="{{CaseImgDict.aft_img.url}}" alt="After" class="" >
+	</div>
+	{% endfor %}
+</div>

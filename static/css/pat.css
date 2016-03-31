@@ -1,0 +1,400 @@
+/* Patient homepage */
+.pat-home #main-content {
+    border-radius: 10px 0 0 10px;
+}
+
+.pat-right {
+    width: 265px;
+    color: #ffffff;
+    text-align: center;
+}
+
+/*#timeline {
+    width: 690px; 
+    position: relative;
+}*/
+
+.follow-type {
+    position: relative;
+    z-index: 2;
+    *zoom: 1;
+    background: #f4f4f3;
+    background:-moz-linear-gradient(top, #f4f4f3, #ebebeb);
+    background:-webkit-linear-gradient(top, #f4f4f3, #ebebeb);
+    background:-o-linear-gradient(top, #f4f4f3, #ebebeb);
+    background:-ms-linear-gradient(top, #f4f4f3, #ebebeb);
+    background:linear-gradient(top, #f4f4f3, #ebebeb);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f4f4f3', endColorstr='#ebebeb',GradientType=0);
+    color: #5D5D5D;
+    font-size: 12px;
+    margin-left: -12px;
+    width: 250px;
+    padding: 10px;
+    box-shadow: 3px 4px 3px 1px rgba(0, 0, 0, 0.25)
+}
+
+.follow-type .span4 {
+    cursor: pointer;
+    color: #797a8c;
+    width: 31%;
+    margin: 0 3px;
+    padding: 5px;
+    transition: all linear 0.2s;
+    -moz-transition: all linear 0.2s;
+    -webkit-transition: all linear 0.2s;
+    text-align: center;
+}
+
+.follow-type li:hover {
+    color: #1bb3ff;
+}
+
+.follow-type li.active {
+    /*background-color: #ffffff;
+    box-shadow: 0px 0px 3px 1px rgba(0, 0, 0, 0.3) inset;
+    -moz-box-shadow: 0px 0px 3px 1px rgba(0, 0, 0, 0.3) inset;
+    -webkit-box-shadow: 0px 0px 3px 1px rgba(0, 0, 0, 0.3) inset;*/
+    color: #1bb3ff; 
+}
+
+.follow-type .line {
+    background-color: #A5A5A5;
+    float: left;
+    min-height: 49px;
+    width: 1px;
+}
+
+.follow-type dt, .follow-type dd {
+    line-height: 13px; 
+}
+
+.pat-info .section:after {
+    clear: both;
+    display: block;
+    visibility: hidden;
+    height: 0;
+    content: '';
+    zoom: 1;
+}
+
+.den-list > .row-fluid {
+    margin: 0 0 16px 10px;
+    position: relative;
+    padding: 8px 0;
+    width: 102%;
+} 
+
+.den-list > .row-fluid:hover {
+    background-color: #8A8A95;
+    border-radius: 50px; 
+    -moz-border-radius: 50px; 
+    -webkit-border-radius: 50px; 
+    color: #f2f6f8;
+}
+
+.den-list .thumbnail {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    border-radius: 100px;
+    -moz-border-radius:  100px;
+    -webkit-border-radius:  100px;
+    top: 0px;
+    left: -2px;
+    padding: 0px;
+    border: none;
+}
+
+.den_intro {
+    font-size: 14px;
+    font-weight: bold;
+    padding: 8px 0 0 58px;
+    float: left;
+    display: block;
+    height: 28px;
+    text-align: left;
+}
+
+.pat-info .section h2{
+    float: left;
+    margin-right: 10px;
+    font-size: 18px;
+}
+
+.pat-info {
+    width: 255px;
+    word-wrap: break-word;
+    margin-bottom: 20px;
+}
+
+#baseinfo {
+    margin-bottom: 30px;
+}
+
+#baseinfo .avatar-wrapper {
+    background-color: #ffffff;
+    border: 2px solid #eeeeee;
+    padding: 8px;
+    position: relative;
+    height: 270px;
+    width: 270px;
+    top: -70px;
+    left: -9px;
+    margin-bottom: -67px;
+}
+
+#baseinfo .avatar-wrapper .thumbnail {
+    width: 250px;
+    height: 250px;
+    padding: 0px;
+}
+
+/* Pathology */
+.pat-record-form {
+    padding: 30px 15px;
+}
+
+.pat-record-form h1 {
+    font-size: 36px;
+    color: #5f4242;
+    text-align: right;
+    margin: 0;
+    padding-right: 15px;
+}
+
+.black-form {
+    border: 1px solid #000000;
+}
+
+.form-title {
+   color: #ffffff;
+   background-color: #000000;
+   height: 50px;
+   text-align: right;
+   border: 1px solid #000000;
+   margin-top: 0;
+   margin-bottom: 0;
+   line-height: 50px;
+   padding-right: 15px;
+   margin-right: -2px;
+}
+
+.baseinfo-title {
+    text-indent: 7px;
+    font-weight: bold;
+    width: 80px;
+}
+
+.baseinfo-content {
+    width: 302px;
+    word-break: break-all;
+}
+
+.baseinfo-table {
+    margin-bottom: 0;
+    float: left;
+    width: 564px;
+}
+
+.baseinfo-table th, .baseinfo-table td {
+    border-top: 1px solid #000;
+}
+
+.baseinfo-table th.first, .baseinfo-table td.first {
+    border-top: none;
+}
+
+.pat-record-form .avatar-wrapper {
+    border-right: 1px solid #000000;
+}
+
+.pat-avatar {
+    height: 210px;
+    margin: 25px auto;
+    width: 210px;
+}
+
+.choice-block {
+    float: left;
+    width: 473px;
+}
+
+.choice-block.first {
+    border-right: 1px solid #000000;
+}
+
+.choice-block h3 {
+    border-bottom: 1px solid #000000;
+    font-size: 14px;
+    line-height: 20px;
+    margin-top: 0;
+    padding: 0 0 3px 12px;
+}
+
+.checklist-box {
+    padding: 10px;
+    min-height: 211px;
+}
+
+.checklist-box label {
+    float: left;
+    padding-left: 20px;
+    width: 128px;
+    background: url("/site_static/img/icon-check.png") no-repeat 0 1px #fff;
+    margin-right: 5px;
+    margin-bottom: 10px;
+    line-height: 17px;
+}
+
+.checklist-box label.active {
+    background: url("/site_static/img/icon-uncheck.png") no-repeat 0 -1px #fff;
+}
+
+/* Edit baseinfo */
+.edit-form {
+    width: 655px;
+    padding: 0 0 20px 30px;
+}
+
+.edit-form .avatar-wrapper {
+    position: relative;
+}
+
+.img-tip {
+    left: 9px;
+    width: 250px;
+}
+
+.avatar_form {
+    padding: 10px 0 10px 10px;
+}
+
+.upload_avatar {
+   margin: 0 0 10px 10px; 
+}
+
+#pathology_form .checkbox, #pathology_form .radio {
+    margin: 10px 10px 10px 0;
+}
+
+/* Search */
+.search-bar {
+    margin: 35px 0;
+    padding: 0 75px;
+}
+
+.search-bar h1{
+    float: left;
+    font-size: 40px;
+}
+
+.search-bar form {
+    float: left;
+    margin-left: 15px;
+}
+
+input.big-search-input {
+    float: left;
+    height: 30px;
+    line-height: 30px;
+    margin-bottom: 0;
+    margin-top: 10px;
+    border-radius: 0;
+    border-right: none;
+    width: 400px;
+}
+
+.btn-search {
+    float: right;
+    margin-top: 9px;
+}
+
+.result-title {
+    font-size: 20px;
+    margin-bottom: 0;
+    padding: 10px 0 10px 40px;
+}
+
+.result-box {
+    border-right: 1px solid #dddddd;
+    padding: 0 0 50px 40px;
+}
+
+#result_box {
+    margin-bottom: 50px;
+}
+
+.result-list {
+    margin-bottom: 20px;
+}
+
+.result-list h3 {
+    margin-bottom: 0;
+}
+
+.follow-info {
+    color: #676767;
+    font-size: 15px;
+    font-weight: bold;
+    padding: 5px 5px 5px 0;
+}
+
+.result-list .thumbnail {
+    margin-top: 20px;
+    width: 100px;
+}
+
+.search-nav {
+    border-bottom: none;
+    padding-left: 50px;
+}
+
+.search-nav li {
+    font-size: 18px;
+}
+
+.search-nav li a {
+    display: block;
+    padding: 15px 0px;
+}
+
+.search-nav li.active a {
+    color: #000000;
+}
+
+.map-wrap {
+    padding: 15px 25px 20px 25px;
+    margin-bottom: 20px;
+}
+
+.user-local {
+    padding: 10px 0 10px 0px;
+}
+
+.user-local h4 {
+    margin: 4px 8px 0 0;
+}
+
+.clinic-box {
+    border: 1px solid #dddddd;
+    padding: 7px;
+    margin: 7px 0 0 -8px;
+    color: #949494;
+}
+
+#gmap {
+    height: 250px;
+}
+
+#new_location input {
+    margin-bottom: 0;
+}
+
+#base_info_form table td {
+    padding: 5px 0 10px 10px; 
+    vertical-align: top;
+}
+
+#base_info_form table td label {
+    margin-top: 5px;
+}

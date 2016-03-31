@@ -1,0 +1,15 @@
+{% load i18n %}
+iDentalk
+
+Please click this link to confirm your email address:
+
+http://{{ site }}{% url registration_activate activation_key %}
+
+If the above link does not work, you can paste the address into your browser.
+
+You will be asked to log into your account to confirm this email address. Be sure to log in with your current primary email address.
+
+
+Thank you for using iDentalk
+
+--The iDentalk Team

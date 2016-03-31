@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block title %}Notification{% endblock %}
+
+{% block script %}
+<script data-main="/site_static/js/js-build/scripts/common/notification" src="/site_static/js/js-build/libs/require.js"></script>
+{% endblock %}
+
+{% block header %}
+    {% include 'header.html' %}
+{% endblock %}
+
+{% if flavour == "mobile" %}
+    {% block mobile %}
+        {% include 'mobile/m-header.html' %}
+        {% include 'mobile/m-notification.html' %}
+    {% endblock %}
+
+{% else %}
+
+{% block content %}
+<div id="wrapper" class="container container-fluid">
+	{% if identity == "D" %}
+		<div class="row-fluid "> <!--Request Notice Dentist-->
+			<h3 class="end-line">Request Notice</h3>
+			<ul class="underline-list">
+				{% if D_RelationEventDict.count == 0 %}
+					<li><h5>Sorry, You have no request notice here now</h5></li>
+				{% endif %}
+				{% for D_RelationEventObj in D_RelationEventDict%}
+					<li class="row-fluid">
+						<a class="thumbnail span1" href="/p/{{ D_RelationEventObj.user.id }}">
+							<img src="{{ D_RelationEventObj.event_object.pget_imagesamll }}">
+						</a>
+						<div class="span10 ml10 mt20">
+							{% if D_RelationEventObj.message %}
+								leave a message for you "{{ D_RelationEventObj.message }}".
+							{% endif %}
+							{{ D_RelationEventObj.event_object.relation_connecting_desc }}&nbsp
+							<a href="/p/{{ D_RelationEventObj.user.id }}">View Profile</a>,&nbsp
+							<a href="/ajax/relationship/acceptrequest/{{ D_RelationEventObj.user.id }}" class="relation-action relation_accept">Accept</a><span>&nbsp or &nbsp</span>
+							<a href="/ajax/relationship/refuserequest/{{ D_RelationEventObj.user.id }}" class="relation-action relation_refuse">Refuse</a>
+						</div>
+						
+					</li>
+				{% endfor %}
+			</ul>
+		</div>
+		<div class="row-fluid "> <!--Comment Notice Dentist-->
+			<h3 class="end-line">Comment Notice</h3>
+			<ul class="underline-list">
+				{% for EventObj in StreamEventDict%}
+					{% if EventObj.event_object.comment_content %}
+						<li>{{ EventObj.event_object.comment_desc }},&nbsp<a href="/stream/getpost/{{ EventObj.event_object.post_id.id }}">Read More</a></li>
+					{% endif %}
+				{% endfor %}
+			</ul>
+		</div>
+	{% else %}
+		<div class="row-fluid "> <!--Request Notice Patient-->
+			<h3 class="end-line">Requst Notice</h3>
+			<ul class="underline-list">
+				{% for P_RelationEventObj in P_RelationEventDict%}
+					<li class="row-fluid">
+						<a class="thumbnail span1" href="/d/{{ P_RelationEventObj.user.id }}">
+							<img src="{{ P_RelationEventObj.event_object.dget_imagesamll }}">
+						</a>
+						<div class="span10 ml10 mt20">
+							{{ P_RelationEventObj.event_object.relation_connected_desc }}&nbsp
+							<a href="/ajax/requestnotice/archive/{{ P_RelationEventObj.id }}" >Archive</a>
+						</div>
+					</li>
+				{% endfor %}
+			</ul>
+		</div>
+	{% endif %}
+</div>
+{% endblock %}
+
+{% endif %}

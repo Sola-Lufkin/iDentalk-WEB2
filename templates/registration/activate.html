@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+<div id="wrapper" class="container container-fluid">
+{% if account %}
+
+<p>{% trans "Your email address has been verified. Thanks." %}</p>
+
+{% else %}
+
+<p>{% trans "Account activation fails" %}</p>
+
+{% endif %}
+
+<p>Click <a href="/">here</a> to jump back to the homepage</p>
+
+</div>
+{% endblock %}

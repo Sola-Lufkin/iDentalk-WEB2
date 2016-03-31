@@ -1,0 +1,164 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load truncate_filters %}
+
+{% block title %}Message{% endblock %}
+{% block style %}
+<link rel="stylesheet" href="/site_static/css/mail_notice.css">
+<link rel="stylesheet" href="/site_static/css/datepicker.css">
+<link rel="stylesheet" href="/site_static/css/timepicker.css">
+{% endblock %}
+{% block script %}
+{% if dentist %}
+<script data-main="/site_static/js/js-build/scripts/dentist/den_mail" src="/site_static/js/js-build/libs/require.js"></script>
+{% else %}
+<script data-main="/site_static/js/js-build/scripts/patient/pat_mail" src="/site_static/js/js-build/libs/require.js"></script>
+{% endif %}
+{% endblock %}
+
+{% block header %}
+    {% include 'header.html' %}
+{% endblock %}
+
+{% if flavour == "mobile" %}
+    {% block mobile %}
+        {% include 'm_post_tmpl.js' %}
+        {% include 'mobile/m-header.html' %}
+        {% include 'mobile/m-mail_history.html' %}
+    {% endblock %}
+{% else %}
+
+{% block content %}
+<div id="wrapper" class="container container-fluid">
+<div class="row-fluid radius-wrapper bg-content">
+	<div id="left-sidebar" class="span3">
+		<h1 class="sidebar-title"><i class="icon-user"></i><span>My Inbox<span></h1>
+		<ul class="messger-list">
+			{% if dentist %}
+				{% for i in contacter_list %}
+				<li class="clearfix">
+					<a href="/mydentalk/{{i.patient_id}}" id="user_{{i.patient_id}}" rel="{{ i.patient_id }}">
+						<img src="{{ i.avatar }}" title="{{ i.patient_name }}" class="thumbnail">
+						<div class="den_intro">{{ i.patient_name|truncate_chars:19 }}</div>
+						{% if i.mails_count > 0 %}
+							<span class="unread-msg badge badge-important">{{i.mails_count}}</span>
+						{% endif %}
+					</a>
+				</li>
+				{% endfor %}
+			{% else %}
+				{% for i in contacter_list %}
+				<li class="clearfix">
+					<a href="/mydentalk/{{i.dentist_id}}" id="user_{{i.dentist_id}}" rel="{{ i.dentist_id }}">
+						<img src="{{ i.avatar }}" title="{{ i.dentist_name }}" class="thumbnail">
+						<div class="den_intro">{{ i.dentist_name }}</div>
+						{% if i.mails_count > 0 %}
+							<span class="unread-msg badge badge-important">{{i.mails_count}}</span>
+						{% endif %}
+					</a>
+				</li>
+				{% endfor %}
+			{% endif %}
+		</ul>
+	</div>
+
+	{% if mail_per_page %} 
+	<div id="main-content" class="span9 pull-right mail-box">
+		<div class="reply row-fluid">
+			<h1 class="end-line mail-title">Conversation with {{ name }}</h1>
+			<form action="{% url post_mail %}" id="message_form" class="row-fluid">
+				<input type="hidden" name="contact-id" value="{{uid}}">
+				<textarea class="span12" name="content" cols="10" rows="5"></textarea>
+				{% if dentist %}
+				<div class="span12 hide" id="extender">
+					<div class="span3 offset1">
+						<p class="date-check">
+							<span class="pull-left">Date: </span>
+							<input type="text" name="start" class="input-small pull-right">
+						</p>
+					</div>
+					<div class="span5">
+						<a href="javascript:;" class="add-hour"><span class="pull-left" style="margin:4px 0 0 8px;">+ Add Hour</span></a>
+						<div class="span6 hide">
+							<p class="date-check">
+								<span class="pull-left">Hours: </span>
+								<input type="text" name="time" class="input-mini pull-right">
+							</p>	
+						</div>
+					</div>
+				</div>
+				<p class="pull-left reminder-check"><input type="checkbox" class="pull-left mail-extend"><span>Add a reminder</span></p>
+				{% endif %}
+				<button class="btn btn-gray pull-right sub-message" type="button">Send</button>
+			</form>
+		</div>
+		<div id="show_message">
+	      	{% for mail in mail_per_page.object_list %}
+				<div class="row-fluid mb10">
+					{% if mail.own %}
+					{{ forloop.parentloop.own }}
+					<a href="/d/{{mail.uid}}" class="pull-left">
+						<img src="{{mail.avatar}}" class="thumbnail" alt="{{mail.name}}" title="{{mail.name}}">
+					</a>
+					<div class="mail-content span10">						
+						{% if mail.reminder %}
+						<p class="mail-name">{{ mail.name }} <span>add you a reminder</span></p>
+						<p class="reminder"> {{ mail.reminder }} </p>
+						{% else %}
+						<p class="mail-name">{{ mail.name }}</p>
+						{% endif %}
+						<div class="mail-text mb10">
+							{% if mail.type == 3 %}
+								<i class="icon-time calendar-sign"></i>
+							{% endif %}	
+							{{mail.content}}
+						</div>
+						<div class="pull-left muted small" title="{{mail.date}}">{{mail.humandate}}</div>
+					</div>
+					{% else %}
+					<a href="/p/{{mail.uid}}" class="pull-left">
+						<img src="{{mail.avatar}}" class="thumbnail" alt="{{mail.name}}" title="{{mail.name}}">
+					</a>
+					<div class="mail-content span10">
+						{% if mail.reminder %}
+						<p class="mail-name">{{ mail.name }} <span>add you a reminder</span></p>
+						<p class="reminder"> {{ mail.reminder }} </p>
+						{% else %}
+						<p class="mail-name">{{ mail.name }}</p>
+						{% endif %}
+						<div class="mail-text mb10">
+							{% if mail.type == 3 %}
+								<i class="icon-time calendar-sign"></i>
+							{% endif %}	
+							{{mail.content}}
+						</div>
+						<div class="pull-left muted small" title="{{mail.date}}">{{mail.humandate}}</div>
+					</div>
+					{% endif %}
+				</div>
+			{% endfor %}
+		</div>
+		
+		<div class="pagination"> 
+			{% if mail_per_page %}
+			    <div id="pager" class="clearfix btn-group">
+				    {% if mail_per_page.has_previous or mail_per_page.has_next  %}
+				    <span class="mail_per_page">
+					      <h5>Now is Page {{ mail_per_page.number }}</h5>
+					</span>
+				    {% endif %}
+					{% if mail_per_page.has_next %}
+					<a class="btn" href="?page={{ mail_per_page.next_page_number }}">Next </a>
+					{% endif %}
+					{% if mail_per_page.has_previous %}
+					<a class="btn" href="?page={{ mail_per_page.previous_page_number }}">Last</a>
+					{% endif %}
+			    </div>
+			{% endif %}
+		</div>
+	</div>
+{% endif %}
+</div>
+</div>
+{% endblock %}
+{% endif %}

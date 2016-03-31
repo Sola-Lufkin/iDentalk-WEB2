@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+
+{% load i18n %}
+{% block title %}
+    {% trans "Patient Manage" %}
+{% endblock %}
+{% block style %}
+{% endblock %}
+
+{% block script %}
+	<script data-main="/site_static/js/js-build/scripts/dentist/manage_pat" src="/site_static/js/libs/require.js"></script>
+{% endblock %}
+
+{% block header %}
+    {% include 'header.html' %}
+{% endblock %}
+
+{% block content %}
+<div id="wrapper" class="container container-fluid">
+	<div class="row-fluid radius-wrapper bg-content">
+		<div id="left-sidebar" class="span3">
+			<h1 class="sidebar-title">
+				<i class="icon-user"></i><span>Patients</span>
+			</h1>
+			<ul class="sidebar-list" style="margin-top:31px;">
+				<li class="tab active" data-target="connect-panel"><i class="icon-exchange"></i><div class="plist-item">Connected ({{ connected_count }})</div></li>
+				<li class="tab" data-target="request-panel"><i class="icon-plus-sign"></i><div class="plist-item" style="padding-right:92px;">Requesting ({{ connecting_count }})</div></li>
+			</ul>
+		</div>
+		<div id="main-content" class="span9 pull-right">
+			<div id="connect-panel" class="content-inner">
+				<h1 class="plist-title end-line">Connected</h1>
+				<ul class="conntent-inner-list">
+					{% for i in Connected_List %}
+					<li class="clearfix">
+						<img src="{{ i.avatar }}" class="thumbnail pull-left">
+						<div class="mem_intro">
+							<a href="/p/{{ i.patient_id }}">{{ i.patient_name }}</a>
+						</div>
+						<div class="plist-action">
+							<a href="#" class="list-more"></a>
+							<ul class="hide mem-control dropdown-menu">
+								<li>
+									<a class="contact-btn fisrt" data-name="{{ i.patient_name }}" rel="{{ i.patient_id }}" href="javascript:;"><i class="icon-comment"></i>Message
+									</a>
+								</li>
+								<li class="divider"></li>
+								<li>
+									<a class="pathology" href="/p/{{ i.patient_id }}">
+									<i class="icon-file-alt"></i>Profile
+									</a>
+								</li>
+								<li class="divider"></li>
+								<li>
+									<a class="rel-control last" href="/ajax/relationship/unconnect/{{ i.patient_id }}"><i class="icon-minus-sign"></i>Unconnect
+									</a>
+								</li>
+							</ul>
+						</div>
+					</li>
+					{% endfor %}
+				</ul>
+			</div>
+			<div id="request-panel" class="hide content-inner">
+				<h1 class="plist-title end-line">Requesting</h1>
+				<ul class="conntent-inner-list">
+					{% for i in Connecting_List %}
+					<li class="clearfix">
+						<img src="{{ i.avatar }}" class="thumbnail pull-left">
+						<div class="mem_intro">
+							<a href="/p/{{ i.patient_id }}">{{ i.patient_name }}</a>
+						</div>
+						<div class="plist-action">
+							<a href="#" class="list-more"></a>
+							<ul class="hide mem-control dropdown-menu">
+								<li>
+									<a class="rel-control first" href="/ajax/relationship/acceptrequest/{{ i.patient_id }}"><i class="icon-ok"></i>Accept
+									</a>
+								</li>
+								<li>
+									<a class="pathology" href="/p/{{ i.patient_id }}">
+									<i class="icon-file-alt"></i>Profile
+									</a>
+								</li>
+								<li>
+									<a class="rel-control last" href="/ajax/relationship/refuserequest/{{ i.patient_id }}"><i class="icon-remove"></i>Refuse
+									</a>
+								</li>
+							</ul>	
+						</div>
+					</li>
+					{% endfor %}
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="contact-box hide">
+	<form class="form">
+		<h3 class="lead ml10">Message to <span class="den-name"></span></h3>
+		<div class="control-group">
+			<div class="controls clearfix ml10">
+				<input type="hidden" name="contact-id" value="">
+				<textarea name="content" id="" cols="30" rows="10" class="span8"></textarea>
+			</div>
+		</div>
+		<div class="form-actions">
+			<button type="button" class="btn btn-orange sub-message pull-right">Send</button>
+		</div>
+	</form>
+</div>
+
+{% endblock %}

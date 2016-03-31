@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% load truncate_filters %}
+
+{% block title %}{% trans "Gallery" %}{% endblock %}
+
+{% block header %}
+    {% include 'header.html' %}
+{% endblock %}
+
+{% block style %}
+<link rel="stylesheet" type="text/css" href="/site_static/css/homepage.css">
+{% endblock %}
+
+{% block script %}
+<script data-main="/site_static/js/js-build/scripts/dentist/gallery_edit" src="/site_static/js/js-build/libs/require.js"></script>
+{% endblock %}
+
+{% block content %}
+<div id="wrapper" class="container container-fluid">
+    <div class="radius-wrapper" style="padding-bottom:200px">
+        <h4 class="row-fluid">
+            {% if is_private%}
+            <a class="ml30 block mt10 pull-left back-link" href="/d/home/Gallery">Back</a>
+            {% else %}
+            <a class="ml30 block mt10 pull-left back-link" href="/d/{{uid}}">Back</a>
+            <!-- <a href="/dentist/{{object_id}}/Gallery">Back Gallery</a> -->
+            {% endif %}
+        </h4>
+        <hr>
+        <h1 class="text-center">{{ title }}</h1>
+        <p class="text-center">
+            {{ msg }}
+        </p>
+        {% if not Caselist %}
+        <h3 class="den-tip" style="text-align:center;">Still no case here</h3>
+        {% endif %}
+        {% for i in Caselist %}
+        <h3 class="ml70" style="color:#666;">Case {{forloop.counter}}</h3>
+        <div class="case_preview" id="{{ i.id }}">
+            <a href="{% url case_detail uid=user.id case_id=i.id%}" class="row-fluid">
+                <img src="{{ i.bef_img }}" alt="">
+                <img src="{{ i.aft_img }}" alt="">
+            </a>
+            <div class="case_title hide">
+                <h2>{{ i.case_name|truncate_chars:50 }}</h2>
+                <p>{{ i.description|truncate_chars:90 }}</p>
+            </div>
+        </div>
+        {% endfor %} 
+    </div>
+</div>
+{% endblock %}

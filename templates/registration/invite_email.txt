@@ -1,0 +1,21 @@
+I've been using iDentalk and thought you might like to try it out. Here's
+an invitation to create an account.
+
+-----------------------------------------------------------------------
+
+{{ username }} has invited you to open a free iDentalk account.
+
+To accept this invitation and register for your account, visit
+http://www.identalk.com/signup/p
+
+If you haven't already heard about iDentalk, it's a brand new social website for dentists and patients.
+
+We're still working every day to improve iDentalk, so we might ask for your
+comments and suggestions periodically.  We hope you'll like iDentalk.
+
+Thanks,
+
+The iDentalk Team
+
+(If clicking the URLs in this message does not work, copy and paste them
+into the address bar of your browser).

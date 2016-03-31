@@ -1,0 +1,97 @@
+/*Dentist step*/
+.step-container{
+    padding-top: 120px;
+}
+
+.info-step {
+    margin-top: 50px;
+    padding: 8px 0;
+}
+
+.info-panel {
+    width: 702px;
+    float: right;
+}
+
+.info-panel .step {
+    display: none;
+    position: relative;
+    background: none repeat scroll 0 0 #FFFFFF;
+    height: 420px;
+    padding-top: 20px;
+}
+
+.next-step {
+    margin-right: 50px;
+}
+
+.prev-step {
+    margin-left: 50px;
+}
+
+.complate-step {
+    margin-right: 50px;
+}
+
+.info-panel .step.active {
+    display: block;
+}
+
+.info-panel label.error {
+    float: right;
+    margin-right: 35px;
+}
+
+#baseinfo_form th {
+    width: 100px;
+    font-size: 16px;
+}
+
+.step-list {
+    float: left;
+    width: 173px;
+    height: 622px;
+}
+
+.step-icon {
+    text-align: center;
+    padding-left: 30px;
+}
+
+.step-icon li {
+    margin: 40px 0 45px;
+}
+
+.step-icon .img-circle {
+    height: 90px;
+    width: 90px;
+    background: url("/site_static/img/bg-step.png") no-repeat 4px -92px transparent;
+    font-size: 40px;
+    line-height: 90px;
+    text-align: center;
+    margin: 0 auto;
+}
+
+.step-icon li.active .img-circle {
+    color: #333;
+    background-position: 1px -1px;
+    text-shadow: 2px 2px 1px rgba(0, 0, 0, 0.7);
+}
+
+.prove-gallery.span4 img {
+    width: 400px;
+}
+
+.avatar-panel.span5 img {
+    height: 270px;
+    width: 100%;
+}
+
+#upload_avatar {
+    display: none;
+}
+
+.prove-gallery .thumbnail {
+    height: 280px;
+    width: 380px;
+}

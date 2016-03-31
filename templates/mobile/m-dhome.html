@@ -1,0 +1,12 @@
+<div data-role="content">
+	{% if is_private %}
+	<a id="open_post" data-role="button" data-theme="b" href="#">Post</a>
+	<div data-role="fieldcontain" class="post-wrap hide">
+		<form action="{% url post_save %}" method="post">
+			<textarea cols="40" rows="8" name="post" id="msg_box"></textarea>
+			<button type="submit" data-theme="b" id="sub_post">Post</button>
+		</form>
+	</div>
+	{% endif %}
+	<div id="msg_flow"></div>
+</div>

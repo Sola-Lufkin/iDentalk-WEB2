@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+
+{% load i18n %}
+{% block title %}
+    {% trans "Fill your profile info" %}
+{% endblock %}
+{% block style %}
+<link rel="stylesheet" href="/site_static/css/jcrop/jquery.Jcrop.css">
+<link rel="stylesheet" href="/site_static/css/step.css">
+{% endblock %}
+
+{% block script %}
+<script data-main="/site_static/js/js-build/scripts/common/info_step" src="/site_static/js/js-build/libs/require.js"></script>
+{% endblock %}
+
+{% block header %}
+<div class="window-tip label label-info">Loading...</div>
+<div id="header" class="navbar">
+    <div class="navbar-inner nav-header-top">
+        <div class="container">
+            <a href="#" class="brand"><img class="logo" src="/site_static/img/logo.png"></a>
+        </div>
+    </div>
+    <div class="navbar-inner nav-header-bottom">
+        <div class="container">
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div id="wrapper" class="container container-fluid step-container">
+    <div class="info-step row-fluid">
+        <div class="step-list">
+           <ul class="step-icon muted">
+               <li class="active">
+                    <dt class="img-circle">1</dt>
+                    <dd>Profile Information</dd>
+                </li>
+               <li>
+                    <dt class="img-circle">2</dt>
+                    <dd>Photo</dd>
+               </li>
+           </ul>
+        </div>
+
+        <div class="info-panel">
+            <div class="step active clearfix radius-wrapper" id="step1">
+                <form action="{% url fill_info_pat %}" id="baseinfo_form" class="ml100">
+                    <h2>Fill your profile info</h2>
+                    <p class="muted">Complate your information</p>
+                    <table class="table">
+                        {{form.as_table}}
+                    </table>
+                </form>
+                <hr/>
+                <button class="btn btn-gray pull-right step-btn next-step" id="sub_baseinfo">
+                    Next
+                </button>
+            </div>
+
+            <div class="step radius-wrapper" id="step2">
+                <div class="clearfix ml100">
+                    <h2>set your profile picture</h2>
+                    <div class="row-fluid">
+                        <div class="span5 avatar-panel">
+                            <img id="ferret" class="thumbnail" src="/site_static/img/8.png" alt=""> 
+                        </div>
+                        <div class="span4 mt80 offset2 text-center">
+                            <a href="javascript:;" id="choose_avatar" class="btn btn-gray btn-block btn-large">Upload a photo</a>
+                        </div>
+                    </div>
+                    <form id="resize_form" action="{% url upload_avatar %}" method="POST" class="row-fluid">
+                        <input type="hidden" name="x1" value="260" />
+                        <input type="hidden" name="y1" value="260" />
+                        <input type="hidden" name="x2" value="260" />
+                        <input type="hidden" name="y2" value="260" /> 
+                        <button id="upload_avatar" class="btn btn-gray span3 offset7 mb10">Save as avatar</button>
+                    </form>
+                </div>
+                <hr/>
+                <div class="row-fluid">
+                    <button class="btn btn-gray pull-left prev-step step-btn">Prev</button>
+                    <a href="{% url change_to_finished %}" class="skip-step pull-left offset8">Skip</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

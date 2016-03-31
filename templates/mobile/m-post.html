@@ -1,0 +1,37 @@
+<div data-role="content">
+	<div class="radius-wrapper unique-post">
+		<div class="post-box">
+			<div class="row-fluid">
+				<div class="span2">
+					<img src="{{ imagephoto }}" alt="" class="thumbnail">
+				</div>
+				<div class="span10  ml30">
+					<div class="post-name">{{ PostObj.user_id.first_name }}&nbsp{{ PostObj.user_id.last_name }}</div>
+					<div class="muted small">{{ PostObj.post_date }}</div>
+				</div>
+			</div>
+			<hr>
+			<p>{{ PostObj.post_content }}</p>
+			<div class="unique-comment">
+				<div class="bg-green">
+					Comment
+				</div>
+			</div>	
+			{% for CommentObj in CommentDict%}
+			<div id="comment_{{ CommentObj.id }}" class="unique-comment">
+				<div class="bg-green">
+					<div class="row-fluid">
+						<div class="span4 comment-name">{{ CommentObj.user_id.last_name }}:</div>
+						<div class="span8 ml10">{{ CommentObj.comment_content }}</div>
+						<small class="muted stream-date pull-right mt10">{{ CommentObj.comment_date }}</small>
+					</div>
+				</div>
+			</div>
+			{% endfor %}
+			<div class="row-fluid" data-role="fieldcontain">
+				<textarea id="comment_input" name="comment-content" placeholder="Add a Comment..."></textarea>
+				<button id="sub_comment" type="submit" data-theme="b" rel="{{ PostObj.id }}">Post Comment</button>
+			</div>
+		</div>
+	</div>
+</div>

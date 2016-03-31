@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block title %}Identity Choose{% endblock %}
+{% block script %}
+<script src="/site_static/js/libs/require.js" data-main="/site_static/js/js-build/scripts/common/index"></script>
+{% endblock %}
+
+{% block style %}    
+<link rel="stylesheet" href="/site_static/css/step.css">
+{% endblock %}
+
+{% block header %}
+{% endblock %}
+
+{% block emptybox %}
+<div id="wrapper" class="container container-fluid">
+<div class="row-fluid sign-up-panel">
+	<h1>Sign up</h1>
+	<h2 class="muted">How Would you like to use iDentalk?</h2>
+	<div class="row-fluid">
+		<div class="span6 well iden-type">
+			<h2>Dentist</h2>
+			<p class="muted">
+				identalk provides easy way to connect dentists with patients
+			</p>	
+			<a class="btn" href="{% url d_signup %}">Sign up</a>
+		</div>
+		<div class="span6 pull-right well iden-type">
+			<h2>Public</h2>	
+			<p class="muted">
+				I'd like to find, follow, communicate with dentists freely
+			</p>	
+			<a class="btn" href="{% url p_signup %}">Sign up</a>
+		</div>
+	</div>
+	<div class="well">
+		....
+	</div>
+</div>
+</div>
+{% endblock %}

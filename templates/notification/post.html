@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block title %}Post{% endblock %}
+
+{% block mobile_assets %}
+<script type="text/javascript" src="/site_static/mobile-app/js/m-post.js"></script>
+{% endblock %}
+
+{% block style %}
+<link rel="stylesheet" href="/site_static/css/homepage.css" type="text/css">
+{% endblock %}
+
+{% block script %}
+ <script data-main="/site_static/js/js-build/scripts/dentist/unique_post" src="/site_static/js/js-build/libs/require.js"></script>
+{% endblock %}
+
+
+{% block header %}
+    {% include 'header.html' %}
+{% endblock %}
+
+{% if flavour == "mobile" %}
+    {% block mobile %}
+        {% include 'mobile/m-header.html' %}
+        {% include 'mobile/m-post.html' %}
+    {% endblock %}
+{% else %}
+
+{% block content %}
+<div id="wrapper" class="container container-fluid">
+	<div class="radius-wrapper unique-post">
+		<hr>
+		<div id="msg_flow">
+			<div class="stream row-fluid" id="stream_${id}">
+		        <div class="stream-content clearfix">
+		            <dl class="span3">
+		                <dt>
+		                	<div class="stream-avatar-wrap">
+		                		<img class="stream-avatar" src="{{ imagephoto }}" />
+		                	</div>
+		                </dt>
+		            </dl>
+		            <div class="span9 mb10 mt10">
+		                <div class="stream-name">{{ PostObj.user_id.first_name }}&nbsp{{ PostObj.user_id.last_name }}</div>
+		                <div class="stream-date muted pull-right" title="{{PostObj.post_date}}">{{ post_humandate }}</div>
+		                <div class="span12 mt10 stream-detail">
+		                    <p>
+		                    {{ PostObj.post_content|safe }}
+		                    </p>
+		                    {% if PostObj.img %}
+		                    <a href="{{ PostObj.img }}">
+		                        <img src="{{ PostObj.img_m }}">
+		                    </a>
+		                    {% else %}
+							{% endif %}
+		                </div>
+		                <div class="stream-toolbar invisible pull-right">
+		                    {% if is_private %}<a href="javascript:;" title="DELETE" class="icon-trash pull-right post-del" rel="${id}"></a>{% endif %}
+		                </div>
+		            </div> 
+		        </div>
+
+		        <div class="comment-box row-fluid bg-green">
+		        
+					<div class="comment-wrap clearfix">
+						{% for Comment_entry in Commentlist %}
+						<div id="comment_{{ Comment_entry.id }}" class="row-fluid comment-table">
+							{% if Comment_entry.comment_identity == 'D' %}
+							<span class="stream-point d-point">.</span>
+							{% else %}
+							<span class="stream-point p-point">.</span>
+							{% endif %}
+							<div class="span2 comment-name">{{ Comment_entry.lastname }}:</div>
+
+							 <div class="stream-date muted small pull-right">
+					            {% if own %}<a class="del-comment icon-trash" href="javascript:;" rel="{{ Comment_entry.id }}"></a>{% endif %}
+					            &nbsp
+					            <small class="muted" title="{{ Comment_entry.date }}">{{ Comment_entry.humandate }}</small>
+					        </div>				
+							<div class="span10">{{ Comment_entry.content }}</div>
+						</div>
+						{% endfor %}
+						<textarea class="comment-input" name="comment-content" placeholder="Add a Comment..."></textarea>
+						<button class="btn btn-gray pull-right sub-comment" type="button" rel="{{ PostObj.id }}">Reply</button>	
+					</div>
+				</div>
+		    </div>
+		</div>
+	</div>
+</div>
+{% endblock %}
+{% endif %}

@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block title %}Sign up{% endblock %}
+{% block script %}
+<script src="/site_static/js/libs/require.js" data-main="/site_static/js/js-build/scripts/common/index"></script>
+{% endblock %}
+
+{% block header %}
+    {% include 'header.html' %}
+{% endblock %}
+
+{% block content %}
+<div id="wrapper" class="container container-fluid">
+<div class="row-fluid sign-up-panel">
+	<h1>Sign up as a dentist</h1>
+	<h2 class="muted">Dentist can connect & talk to patients</h2>
+	<div class="well sign-wrap pull-left">
+		<form action="{% url d_signup %}" method='post' class="form-inline require-form" id="signup_form">
+			{% csrf_token %}
+			{{ form.as_p }}
+			<div class="control-group clearfix">
+				<button type="submit" class="btn btn-success mt20">{% trans "Create Account" %}</button>
+			</div>
+		</form>
+	</div>
+	<!-- <div class="well sign-wrap pull-right">
+		<a class="btn span10 mb10" id="__w2_nDpwWTz_google_connect_button" href="https://accounts.google.com/o/oauth2/auth?response_type=code&client_id=159968613525.apps.googleusercontent.com&redirect_uri=http://localhost:8000/oauth&scope=https://www.googleapis.com/auth/userinfo.profile+https://www.googleapis.com/auth/userinfo.email&state=" class="google_button submit_button">Sign In With Google Account
+		</a>
+		<a class="btn span10" id="__w2_nDpwWTz_fb_connect_button" href="https://www.facebook.com/dialog/oauth/?client_id=617649148261434&redirect_uri=http://www.identalk.com/oauth&scope=email,read_friendlists,read_stream,publish_checkins,publish_actions,user_about_me&response_type=code" class="fb_button submit_button">Sign In With Facebook Account</a>
+	</div> -->
+</div>
+</div>
+{% endblock %}

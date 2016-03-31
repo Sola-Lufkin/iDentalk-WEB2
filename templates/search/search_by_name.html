@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block title %}Search{% endblock %}
+
+{% block script %}
+<script data-main="/site_static/js/js-build/scripts/patient/search" src="/site_static/js/js-build/libs/require.js"></script>
+{% endblock %}
+
+{% block style %}    
+<link rel="stylesheet" href="/site_static/css/pat.css" type="text/css">
+{% endblock %}
+
+{% block header %}
+    {% include 'header.html' %}
+{% endblock %}
+
+{% block content %}
+<div id="wrapper" class="container container-fluid">
+{% include 'search_result.js' %}
+
+    <div class="search-bar clearfix">
+         <h1>Find Dentist</h1>        
+         <form id="search_name" action="{% url search_by_name %}">
+            <input type="text" name="keyword" value="{{ keyword }}" class="big-search-input">
+            <input id="search" type="submit" class="btn-search newicon newicon-zoom">
+        </form>
+    </div>
+
+    <div class="radius-wrapper">
+        <div class="end-line result-title">Results of <span class="blue" id="search_keywords"></span></div>
+        <div class="row-fluid">
+            <div class="span12 result-box">
+                <div id="result_box"></div>
+                <div class="row-fluid hide more-wrap">
+                    <button id="more_result" class="btn btn-info span10 offset1">More</button>
+                </div> 
+            </div>
+            <!-- <div class="span3 ">
+
+            </div>  -->
+        </div>
+    </div>
+</div>
+{% endblock %}

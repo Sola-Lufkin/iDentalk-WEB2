@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block title %}
+    {% trans 'Calendar' %}    
+{% endblock %}
+
+{% block style %}
+<link rel="stylesheet" href="/site_static/css/pat.css">
+<link rel="stylesheet" href="/site_static/css/fullcalendar.css">
+{% endblock %}
+{% block script %}
+<script data-main="/site_static/js/js-build/scripts/common/calendar" src="/site_static/js/js-build/libs/require.js"></script>
+{% endblock %}
+
+
+{% block header %}
+    {% include 'header.html' %}
+{% endblock %}
+
+{% block content %}
+<div id="wrapper" class="container container-fluid">
+	<div id="calendar"></div>
+	<div id="event_form_wrap" class="hide">
+		<form action="" method="POST" class="form-horizontal event-form">
+			<div class="control-group">
+				<label class="control-label">Event</label>
+				<div class="controls">
+					<input type="text" class="input" name="title">
+					<textarea name="event" class="span3"></textarea>
+					<input type="hidden" value="pid">
+				</div>
+			</div>
+			<div class="form-actions">
+				<button class="btn btn-orange sub-event pull-right" type="submit">Add</button>
+			</div>
+			
+		</form>
+	</div>
+</div>
+{% endblock %}
